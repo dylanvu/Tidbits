@@ -1,5 +1,5 @@
 "use client";
-import ScrollableCarousel from "@/components/scrollable-carousel";
+import ScrollableCarousel from "@/components/ScrollableCarousel";
 
 export default function Reels() {
     return (
