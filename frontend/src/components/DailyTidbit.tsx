@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-
+import globalStyles from "@/styles/Global.module.sass";
 export interface IDailyTidbit {
     title: string;
     course: string;
@@ -9,13 +9,18 @@ export interface IDailyTidbit {
 function DailyTidbit({ tidbit }: { tidbit: IDailyTidbit }) {
     const router = useRouter();
     return (
-        <div>
+        <div className={globalStyles.test}>
             <div>{tidbit.title}</div>
             <div>{tidbit.course}</div>
             <div>{tidbit.duration} seconds</div>
             <img src="./placeholder.png"></img>
             {/* TODO: link this to the real video */}
-            <button onClick={() => router.push("/view")}>Watch Videos</button>
+            <button
+                onClick={() => router.push("/view")}
+                className={globalStyles.primary}
+            >
+                Study now
+            </button>
         </div>
     );
 }

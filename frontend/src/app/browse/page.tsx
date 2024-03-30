@@ -5,7 +5,7 @@ import { StudySet } from "@/components/StudySetCard";
 import { useEffect, useState } from "react";
 import FoldersUI from "./folders";
 import CourseUI from "./course";
-
+import globalStyles from "@/styles/Global.module.sass";
 // TODO: fetch this from backend
 const sets: StudySet[] = [
     {
@@ -36,17 +36,19 @@ export default function Browse() {
     }, [currentCourse]);
     return (
         <main>
-            {/* switch the UIs depending on the render state */}
-            {currentCourse === null ? (
-                <FoldersUI
-                    sets={sets}
-                    daily={daily}
-                    setCurrentCourse={setCurrentCourse}
-                />
-            ) : (
-                <CourseUI course={currentCourse} />
-            )}
-            <Navbar current="home" setCurrentCourse={setCurrentCourse} />
+            <div className={globalStyles.test}>
+                {/* switch the UIs depending on the render state */}
+                {currentCourse === null ? (
+                    <FoldersUI
+                        sets={sets}
+                        daily={daily}
+                        setCurrentCourse={setCurrentCourse}
+                    />
+                ) : (
+                    <CourseUI course={currentCourse} />
+                )}
+                <Navbar current="home" setCurrentCourse={setCurrentCourse} />
+            </div>
         </main>
     );
 }
