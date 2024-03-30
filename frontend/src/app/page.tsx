@@ -9,6 +9,7 @@ import {
     useState,
 } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
+import Navbar from "@/components/Navbar";
 
 type validStatuses = "input" | "waiting" | "done";
 
@@ -60,6 +61,7 @@ export default function Home() {
                     DEBUG BUTTON DELETE ME LATER: See "finished" state
                 </button>
             ) : null}
+            <Navbar current="home" />
         </main>
     );
 }
