@@ -15,21 +15,30 @@ type validStatuses = "input" | "waiting" | "done";
 export default function Home() {
     const [file, setFile] = useState<File | null>(null);
     const [status, setStatus] = useState<validStatuses>("input");
+    const [preview, setPreview] = useState<string>("");
 
     useEffect(() => {
         if (file) {
             if (status === "input") {
+                // create the preview
+                // create the preview
+                const objectUrl = URL.createObjectURL(file);
+                setPreview(objectUrl);
+
                 // set the status to render the loading bar
                 setStatus("waiting");
                 // TODO: call the API to send the video data
                 //.then, setStatus to be "done"
+
+                // free memory when ever video component is unmounted
+                return () => URL.revokeObjectURL(objectUrl);
             }
         }
     }, [file]);
 
     let ui: JSX.Element;
     if (status !== "input" && file) {
-        ui = <UploadedUI file={file} status={status} />;
+        ui = <UploadedUI file={file} status={status} preview={preview} />;
     } else {
         ui = <InputUI file={file} setFile={setFile} />;
     }
@@ -37,13 +46,20 @@ export default function Home() {
     return (
         <main>
             {ui}
-            <button
-                onClick={() => {
-                    setStatus("done");
-                }}
-            >
-                debug state change
-            </button>
+            {status === "waiting" ? (
+                <button
+                    onClick={() => {
+                        setStatus("done");
+                    }}
+                    style={{
+                        backgroundColor: "gray",
+                        padding: "1%",
+                        borderRadius: "10px",
+                    }}
+                >
+                    DEBUG BUTTON DELETE ME LATER: See "finished" state
+                </button>
+            ) : null}
         </main>
     );
 }
@@ -86,14 +102,38 @@ function InputUI({
     );
 }
 
-function UploadedUI({ status, file }: { status: validStatuses; file: File }) {
+function UploadedUI({
+    status,
+    file,
+    preview,
+}: {
+    status: validStatuses;
+    file: File;
+    preview: string;
+}) {
     const progressStyle = {
         height: 30,
         borderRadius: "10px",
     };
     return (
         <div>
-            Generating Video...
+            {status === "waiting" ? (
+                "Generating Video"
+            ) : (
+                <div>
+                    <div>
+                        {/* // TODO: code this in */}
+                        CS50 Lecture Week 2
+                    </div>
+                    {file.type === ".mp3" ? (
+                        <audio controls>
+                            <source src={preview} />
+                        </audio>
+                    ) : (
+                        <video src={preview} controls />
+                    )}
+                </div>
+            )}
             <div className="progress-container">
                 {file.name}
                 {status === "waiting" ? (
@@ -111,6 +151,7 @@ function UploadedUI({ status, file }: { status: validStatuses; file: File }) {
                             sx={progressStyle}
                             value={100}
                         />
+                        <button>View Video</button>
                     </>
                 )}
             </div>
