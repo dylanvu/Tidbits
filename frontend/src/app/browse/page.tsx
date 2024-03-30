@@ -1,6 +1,22 @@
 "use client";
-import ScrollableCarousel from "@/components/scrollable-carousel";
+import StudySetCard, { StudySet } from "@/components/StudySetCard";
 import { useRouter } from "next/navigation";
+
+// TODO: fetch this from backend
+const sets: StudySet[] = [
+    {
+        title: "CS50",
+        instructor: "Dr. Malan",
+    },
+    {
+        title: "CPSC 100",
+        instructor: "Dr. Malan",
+    },
+    {
+        title: "COMPSCI 161",
+        instructor: "Professor Shindler",
+    },
+];
 
 export default function Browse() {
     const router = useRouter();
@@ -10,10 +26,9 @@ export default function Browse() {
                 Here is where you would look at the reel organization structure
                 and view reels
             </div>
-            <ScrollableCarousel />
-            <button type="button" onClick={() => router.push("/browse")}>
-                Browse
-            </button>
+            {sets.map((set) => {
+                return <StudySetCard set={set} />;
+            })}
         </main>
     );
 }
