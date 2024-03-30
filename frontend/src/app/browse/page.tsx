@@ -2,7 +2,7 @@
 import { IDailyTidbit } from "@/components/DailyTidbit";
 import Navbar from "@/components/Navbar";
 import { StudySet } from "@/components/StudySetCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FoldersUI from "./folders";
 import CourseUI from "./course";
 
@@ -31,6 +31,9 @@ const daily: IDailyTidbit = {
 
 export default function Browse() {
     const [currentCourse, setCurrentCourse] = useState<string | null>(null);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [currentCourse]);
     return (
         <main>
             {/* switch the UIs depending on the render state */}
