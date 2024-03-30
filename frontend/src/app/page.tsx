@@ -1,19 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import styles from "@/styles/pages/Home.module.sass";
 
 export default function Home() {
-    const router = useRouter();
-
     return (
         <main>
             <div className={styles.test}>
-                Here is where you would upload media to be turned into tidbits
+                <input type="file" hidden id="file-btn" />
+                <label htmlFor="file-btn" style={{ cursor: "pointer" }}>
+                    {/* add image here */}
+                    <img />
+                    <div>Upload a video</div>
+                    <div>Accepting mp3, .mov, and mp4</div>
+                </label>
             </div>
-            <button type="button" onClick={() => router.push("/browse")}>
-                Browse
-            </button>
         </main>
     );
 }
