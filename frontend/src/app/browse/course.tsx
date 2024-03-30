@@ -54,6 +54,7 @@ function CourseUI({ course }: { course: string }) {
                 ))}
             </div>
             {tidbitPreviews.map((tidbit, index) => (
+                // TODO: filter through the tidbits for any selected tag
                 <Link href="/view" key={tidbit.title + `-${index}`}>
                     <img src="./placeholder.png" />
                     <div>{tidbit.title}</div>
