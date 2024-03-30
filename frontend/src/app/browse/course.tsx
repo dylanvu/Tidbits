@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 // TODO: retrieve this from the backend
 let tidbitPreviews: { title: string; duration: number }[] = Array.from({
@@ -17,11 +17,20 @@ tidbitPreviews.fill({
 // TODO: retrieve this from the backend
 const tags = ["algorithms", "data structures", "system design"];
 
-function CourseUI({ course }: { course: string }) {
+function CourseUI({
+    course,
+    setCurrentCourse,
+}: {
+    course: string;
+    setCurrentCourse: Dispatch<SetStateAction<string | null>>;
+}) {
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
     return (
         <div>
-            <div>{course}</div>
+            <div>
+                <button onClick={() => setCurrentCourse(null)}>{"<--"}</button>
+                &nbsp;&nbsp;{course}
+            </div>
             <div>
                 {/* show all the tags associated with the course */}
                 {tags.map((tag) => (
