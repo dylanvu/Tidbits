@@ -1,14 +1,28 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 
-function Navbar({ current }: { current: "home" | "browse" }) {
+function Navbar({
+    current,
+    setCurrentCourse,
+}: {
+    current: "home" | "browse";
+    setCurrentCourse: Dispatch<SetStateAction<string | null>>;
+}) {
     const router = useRouter();
     // Tell Dylan to implement the opacity/color change depending on where you are
     return (
         <div>
-            <button onClick={() => router.push("/browse")}>Home Button</button>
-            <button onClick={() => router.push("/")}>PLUS_BUTTON</button>
-            <button onClick={() => router.push("/view")}>Tidbits Button</button>
+            <button
+                onClick={() => {
+                    setCurrentCourse(null);
+                }}
+            >
+                Home
+            </button>
+            <Link href={"/"}> + </Link>
+            <Link href={"/view"}>Tidbits</Link>
         </div>
     );
 }

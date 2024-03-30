@@ -1,7 +1,10 @@
 "use client";
-import DailyTidbit, { IDailyTidbit } from "@/components/DailyTidbit";
+import { IDailyTidbit } from "@/components/DailyTidbit";
 import Navbar from "@/components/Navbar";
-import StudySetCard, { StudySet } from "@/components/StudySetCard";
+import { StudySet } from "@/components/StudySetCard";
+import { useState } from "react";
+import FoldersUI from "./folders";
+import CourseUI from "./course";
 
 // TODO: fetch this from backend
 const sets: StudySet[] = [
@@ -27,24 +30,20 @@ const daily: IDailyTidbit = {
 };
 
 export default function Browse() {
+    const [currentCourse, setCurrentCourse] = useState<string | null>(null);
     return (
         <main>
-            <div
-                style={{
-                    backgroundColor: "gray",
-                    marginLeft: "10%",
-                    marginRight: "10%",
-                }}
-            >
-                <div>Your Daily Tidbit</div>
-                <DailyTidbit tidbit={daily} />
-            </div>
-            <div>
-                {sets.map((set) => {
-                    return <StudySetCard set={set} />;
-                })}
-            </div>
-            <Navbar current="home" />
+            {/* switch the UIs depending on the render state */}
+            {currentCourse === null ? (
+                <FoldersUI
+                    sets={sets}
+                    daily={daily}
+                    setCurrentCourse={setCurrentCourse}
+                />
+            ) : (
+                <CourseUI course={currentCourse} />
+            )}
+            <Navbar current="home" setCurrentCourse={setCurrentCourse} />
         </main>
     );
 }
