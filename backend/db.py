@@ -1,15 +1,11 @@
-import uuid
 from io import FileIO, BufferedReader
 from pathlib import Path
-from httpx import Response
 from supabase_py_async import create_client, AsyncClient
 
 from config import settings
 
 client: AsyncClient = None
 bucket: str = settings.SUPABASE_BUCKET
-download_dir = Path("downloads")
-download_dir.mkdir(exist_ok=True)
 
 
 async def init_client() -> None:
@@ -20,16 +16,41 @@ async def init_client() -> None:
     )
 
 
-async def get_file(path: Path) -> Path:
-    destination = download_dir / f"{uuid.uuid4()}{path.suffix}"
-    with open(destination, "wb+") as f:
-        res = await client.storage.from_(bucket).download(path.as_posix())
-        f.write(res)
-    return destination
+async def get_courses(uid: str):
+    data = (
+        await client.table("user_courses")
+        .select("course", "instructor")
+        .eq("uid", uid)
+        .execute()
+    )
+    return data.data
 
 
-async def upload_file(
-    destination_path: str, file: BufferedReader | bytes | FileIO | str | Path
-) -> Response:
-    res = await client.storage.from_(bucket).upload(destination_path, file)
+async def get_reel_metadata(uid: str) -> list:
+    data = await client.table("user_reels").select("*").eq("uid", uid).execute()
+    return data.data
+
+
+async def download_thumbnail(vid: str):
+    path = f"{vid}.jpeg"
+    return await client.storage.from_(bucket).download(path)
+
+
+async def download_reel(vid: str):
+    path = f"{vid}.mp4"
+    return await client.storage.from_(bucket).download(path)
+
+
+async def upload_reel(vid: str, file: BufferedReader | bytes | FileIO | str | Path):
+    path = f"{vid}.mp4"
+    res = await client.storage.from_(bucket).upload(path, file)
+    # TODO: update table
     return res
+
+
+async def delete_reel(vid: str):
+    thumbnail = f"{vid}.jpeg"
+    reel = f"{vid}.mp4"
+    data = await client.storage.from_(bucket).remove([thumbnail, reel])
+    # TODO: update table
+    return data
