@@ -1,4 +1,5 @@
 "use client";
+import Navbar from "@/components/Navbar";
 import StudySetCard, { StudySet } from "@/components/StudySetCard";
 import { useRouter } from "next/navigation";
 
@@ -19,16 +20,14 @@ const sets: StudySet[] = [
 ];
 
 export default function Browse() {
-    const router = useRouter();
     return (
         <main>
             <div>
-                Here is where you would look at the reel organization structure
-                and view reels
+                {sets.map((set) => {
+                    return <StudySetCard set={set} />;
+                })}
             </div>
-            {sets.map((set) => {
-                return <StudySetCard set={set} />;
-            })}
+            <Navbar current="home" />
         </main>
     );
 }
