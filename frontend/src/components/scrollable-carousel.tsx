@@ -1,10 +1,11 @@
 "use client";
 import { MouseEvent as ReactMouseEvent, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, type PanInfo } from "framer-motion";
+import styles from "@/styles/components/ScrollableCarousel.module.sass";
 
 // configuration variables on the animation
-const DRAG_THRESHOLD = 150;
-const FALLBACK_WIDTH = 509;
+const DRAG_THRESHOLD = 10;
+const FALLBACK_HEIGHT = 500;
 const CURSOR_SIZE = 80;
 
 // TODO: Turn this into a prop
@@ -30,7 +31,7 @@ function ScrollableCarousel() {
     const [isDragging, setIsDragging] = useState(false);
     function handleDragSnap(
         _: MouseEvent,
-        { offset: { x: dragOffset } }: PanInfo,
+        { offset: { y: dragOffset } }: PanInfo,
     ) {
         //reset drag state
         setIsDragging(false);
@@ -51,7 +52,7 @@ function ScrollableCarousel() {
             return;
         }
 
-        let offsetWidth = 0;
+        let offsetHeight = 0;
         /*
         - start searching from currently active slide in the direction of the drag
         - check if the drag offset is greater than the width of the current item
@@ -65,34 +66,34 @@ function ScrollableCarousel() {
         ) {
             const item = itemsRef.current[i];
             if (item === null) continue;
-            const itemOffset = item.offsetWidth;
+            const itemOffset = item.offsetHeight;
 
-            const prevItemWidth =
-                itemsRef.current[i - 1]?.offsetWidth ?? FALLBACK_WIDTH;
-            const nextItemWidth =
-                itemsRef.current[i + 1]?.offsetWidth ?? FALLBACK_WIDTH;
+            const prevItemHeight =
+                itemsRef.current[i - 1]?.offsetHeight ?? FALLBACK_HEIGHT;
+            const nextItemHeight =
+                itemsRef.current[i + 1]?.offsetHeight ?? FALLBACK_HEIGHT;
 
             if (
                 (dragOffset > 0 && //dragging left
-                    dragOffset > offsetWidth + itemOffset && //dragged past item
+                    dragOffset > offsetHeight + itemOffset && //dragged past item
                     i > 1) || //not the first/second item
                 (dragOffset < 0 && //dragging right
-                    dragOffset < offsetWidth + -itemOffset && //dragged past item
+                    dragOffset < offsetHeight + -itemOffset && //dragged past item
                     i < itemsRef.current.length - 2) //not the last/second to last item
             ) {
                 dragOffset > 0
-                    ? (offsetWidth += prevItemWidth)
-                    : (offsetWidth -= nextItemWidth);
+                    ? (offsetHeight += prevItemHeight)
+                    : (offsetHeight -= nextItemHeight);
                 continue;
             }
 
             if (dragOffset > 0) {
                 //prev
-                offsetY.set(currentOffset + offsetWidth + prevItemWidth);
+                offsetY.set(currentOffset + offsetHeight + prevItemHeight);
                 setActiveSlide(i - 1);
             } else {
                 //next
-                offsetY.set(currentOffset + offsetWidth - nextItemWidth);
+                offsetY.set(currentOffset + offsetHeight - nextItemHeight);
                 setActiveSlide(i + 1);
             }
             break;
@@ -102,7 +103,7 @@ function ScrollableCarousel() {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
-    function disableDragClick(e: ReactMouseEvent<HTMLAnchorElement>) {
+    function disableDragClick(e: ReactMouseEvent<HTMLDivElement>) {
         if (isDragging) {
             e.preventDefault();
             e.stopPropagation();
@@ -113,14 +114,14 @@ function ScrollableCarousel() {
         <div>
             <motion.ul
                 ref={containerRef}
-                className="flex cursor-grab items-start"
+                className="flex h-screen cursor-grab flex-col items-start"
                 style={{
-                    x: animatedY,
+                    y: animatedY,
                 }}
-                drag="x"
+                drag="y"
                 dragConstraints={{
-                    left: -(FALLBACK_WIDTH * (videos.length - 1)),
-                    right: FALLBACK_WIDTH,
+                    top: -(FALLBACK_HEIGHT * (videos.length - 1)),
+                    bottom: FALLBACK_HEIGHT,
                 }}
                 onMouseMove={({ currentTarget, clientX, clientY }) => {
                     const parent = currentTarget.offsetParent;
@@ -154,11 +155,11 @@ function ScrollableCarousel() {
                                 <div
                                     draggable={false}
                                     onClick={disableDragClick}
-                                    className={
+                                    className={`${
                                         active
                                             ? "mt-4 flex justify-center"
                                             : "hidden"
-                                    }
+                                    } ${styles.video}`}
                                 >
                                     {video.title}
                                 </div>
