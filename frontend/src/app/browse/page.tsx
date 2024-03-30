@@ -1,7 +1,7 @@
 "use client";
+import DailyTidbit, { IDailyTidbit } from "@/components/DailyTidbit";
 import Navbar from "@/components/Navbar";
 import StudySetCard, { StudySet } from "@/components/StudySetCard";
-import { useRouter } from "next/navigation";
 
 // TODO: fetch this from backend
 const sets: StudySet[] = [
@@ -19,9 +19,26 @@ const sets: StudySet[] = [
     },
 ];
 
+// TODO: fetch this from backend
+const daily: IDailyTidbit = {
+    title: "Bubble sort algorithm",
+    course: "CS50",
+    duration: 120,
+};
+
 export default function Browse() {
     return (
         <main>
+            <div
+                style={{
+                    backgroundColor: "gray",
+                    marginLeft: "10%",
+                    marginRight: "10%",
+                }}
+            >
+                <div>Your Daily Tidbit</div>
+                <DailyTidbit tidbit={daily} />
+            </div>
             <div>
                 {sets.map((set) => {
                     return <StudySetCard set={set} />;
