@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { Dispatch, SetStateAction, useState } from "react";
 
 // TODO: retrieve this from the backend
 let tidbitPreviews: { title: string; duration: number }[] = Array.from({
@@ -11,13 +14,56 @@ tidbitPreviews.fill({
     duration: 45,
 });
 
-// duplicate this
+// TODO: retrieve this from the backend
+const tags = ["algorithms", "data structures", "system design"];
 
-function CourseUI({ course }: { course: string }) {
+function CourseUI({
+    course,
+    setCurrentCourse,
+}: {
+    course: string;
+    setCurrentCourse: Dispatch<SetStateAction<string | null>>;
+}) {
+    const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
     return (
         <div>
-            <div>Reels for {course}</div>
+            <div>
+                <button onClick={() => setCurrentCourse(null)}>{"<--"}</button>
+                &nbsp;&nbsp;{course}
+            </div>
+            <div>
+                {/* show all the tags associated with the course */}
+                {tags.map((tag) => (
+                    <button
+                        onClick={() => {
+                            if (selectedTags.has(tag)) {
+                                // remove it
+                                const deepClonedSet: Set<string> = new Set(
+                                    JSON.parse(
+                                        JSON.stringify([...selectedTags]),
+                                    ),
+                                );
+                                deepClonedSet.delete(tag);
+                                setSelectedTags(deepClonedSet);
+                            } else {
+                                // add it
+                                // deep clonse
+                                const deepClonedSet: Set<string> = new Set(
+                                    JSON.parse(
+                                        JSON.stringify([...selectedTags, tag]),
+                                    ),
+                                );
+                                setSelectedTags(deepClonedSet);
+                            }
+                        }}
+                        className={selectedTags.has(tag) ? "selected" : ""}
+                    >
+                        {tag}
+                    </button>
+                ))}
+            </div>
             {tidbitPreviews.map((tidbit, index) => (
+                // TODO: filter through the tidbits for any selected tag
                 <Link href="/view" key={tidbit.title + `-${index}`}>
                     <img src="./placeholder.png" />
                     <div>{tidbit.title}</div>

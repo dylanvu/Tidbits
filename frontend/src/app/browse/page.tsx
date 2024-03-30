@@ -45,7 +45,10 @@ export default function Browse() {
                         setCurrentCourse={setCurrentCourse}
                     />
                 ) : (
-                    <CourseUI course={currentCourse} />
+                    <CourseUI
+                        course={currentCourse}
+                        setCurrentCourse={setCurrentCourse}
+                    />
                 )}
                 <Navbar current="home" setCurrentCourse={setCurrentCourse} />
             </div>
