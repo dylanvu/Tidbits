@@ -17,8 +17,8 @@ function CourseUI({ course }: { course: string }) {
     return (
         <div>
             <div>Reels for {course}</div>
-            {tidbitPreviews.map((tidbit) => (
-                <Link href="/view">
+            {tidbitPreviews.map((tidbit, index) => (
+                <Link href="/view" key={tidbit.title + `-${index}`}>
                     <img src="./placeholder.png" />
                     <div>{tidbit.title}</div>
                     <div>{tidbit.duration} seconds</div>

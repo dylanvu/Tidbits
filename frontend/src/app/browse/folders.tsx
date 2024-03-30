@@ -24,11 +24,12 @@ function FoldersUI({
                 <DailyTidbit tidbit={daily} />
             </div>
             <div>
-                {sets.map((set) => {
+                {sets.map((set, index) => {
                     return (
                         <StudySetCard
                             set={set}
                             setCurrentCourse={setCurrentCourse}
+                            key={`${set.title}-${set.instructor}-${index}`}
                         />
                     );
                 })}
