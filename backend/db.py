@@ -51,7 +51,7 @@ async def upload_prompt_and_generate_reel(file: bytes):
     with open(temp, "wb+") as f:
         f.write(file)
     duration = await generate(temp)
-    reel_path = "data/final_video.mp4"
+    reel_path = "final_video.mp4"
     await upload_reel(
         reel_path,
         duration=duration,

@@ -68,8 +68,7 @@ The above is a transcript of a lecture video with timestamps for each sentence i
 
 Your task is to create a 30 second engaging and educational tiktok script for one topic in the video. 
 Choose one of the more obscure and interesting topics from the transcript that most people dont know about.
-The tiktok should incorporate an engaging story or example.
-Do not have any emojis or hashtags in the script.
+Do not use any emojis or hashtags in the script.
 The script should sound passionate, excited, and happy.
 """
 
@@ -275,9 +274,9 @@ async def async_generate_music(text):
     print("Link: ", link)
 
     attempt = 0
-    retry_delay = 100
+    retry_delay = 5
     async with aiohttp.ClientSession() as session:
-        while attempt < 5:
+        while attempt < 100:
             async with session.get(link) as response:
                 if response.status == 200:
                     data = await response.read()
@@ -291,6 +290,7 @@ async def async_generate_music(text):
                         f"Failed to fetch the song, status code: {response.status}, retrying in 5 seconds..."
                     )
             await asyncio.sleep(retry_delay)  # Async sleep for retry_delay seconds
+            print(f"Attempt {attempt + 1}")
             attempt += 1
 
     print("Failed to fetch the song after retries")
@@ -619,7 +619,7 @@ def edit_video(headshot, subtitles, pictures, images, music):
             print(f"Subtitle {i + 1} duration:", subtitle_clip.duration)
 
         # Write the final video to a file
-        final_path = "data/final_video.mp4"
+        final_path = "final_video.mp4"
         final_clip.write_videofile(final_path, threads=8, fps=24)
         return vid_duration(final_path)
 
