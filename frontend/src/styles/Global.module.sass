@@ -88,10 +88,11 @@ $neighbors: 12px
   border-radius: $largeBorder
   @include fitWH
   background-color: #fff
-  cursor: pointer
   &.image
     display: grid
     grid-template-columns: repeat(2, 1fr)
+  &:hover
+    cursor: pointer
 
 .iconTag
   @include row
@@ -107,3 +108,8 @@ $neighbors: 12px
   display: flex
   flex-direction: column
   gap: $friends
+.iconContain
+  padding: $iconPadding
+  border-radius: $smallBorder
+  width: fit-content
+  height: 100%

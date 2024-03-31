@@ -9,16 +9,25 @@ import globalStyles from "@/styles/Global.module.sass";
 // TODO: fetch this from backend
 const sets: StudySet[] = [
     {
+        //* pink
         title: "CS50",
         instructor: "Dr. Malan",
+        iconColor: "#F400CD",
+        iconBackgroundColor: "#FFE7FE",
     },
     {
+        //* green
         title: "CPSC 100",
         instructor: "Dr. Malan",
+        iconColor: "#28B305",
+        iconBackgroundColor: "#DFFFD7",
     },
     {
+        //* blue
         title: "COMPSCI 161",
         instructor: "Professor Shindler",
+        iconColor: "#00C3DD",
+        iconBackgroundColor: "#CAF9FF",
     },
 ];
 
