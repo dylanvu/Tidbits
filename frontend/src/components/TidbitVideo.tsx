@@ -22,22 +22,38 @@ function TidbitVideo({ tidbit }: { tidbit: ITidbitVideo }) {
                 disablePictureInPicture
             />
             {/* overlay */}
-            <div>
+            <div className={globalStyles.reelContain}>
                 <div>
                     <img
                         src={tidbit.pfp}
                         draggable={false}
-                        style={{ width: "auto", height: "10vh" }}
+                        style={{
+                            width: "6vh",
+                            height: "6vh",
+                            borderRadius: "100px",
+                        }}
                     />
                 </div>
-                <div>
+                <div className={globalStyles.reelTextContain}>
                     {/* username and course */}
-                    <div>
-                        <span className={globalStyles.p}>{tidbit.username}</span>
-                        <span className="float-right">{tidbit.course}</span>
+                    <div className={globalStyles.reelsHeading}>
+                        <span className={globalStyles.reelText}>
+                            <b>{tidbit.username}</b>
+                        </span>
+                        <span
+                            className={globalStyles.reelText}
+                            style={{ opacity: ".5" }}
+                        >
+                            {tidbit.course}
+                        </span>
                     </div>
                     {/* tidbit description */}
-                    <div>{tidbit.description}</div>
+                    <div
+                        className={globalStyles.reelText}
+                        style={{ fontWeight: "400" }}
+                    >
+                        {tidbit.description}
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import globalStyles from "@/styles/Global.module.sass";
 axios.defaults.baseURL = "https://tidbits.onrender.com";
-
+import {ArrowLeft} from "lucide-react"
 interface preview {
     title: string;
     duration: number;
@@ -72,7 +72,7 @@ function CourseUI({
                     <button
                         className={globalStyles.backButton}
                         onClick={() => setCurrentCourse(null)}
-                    ></button>
+                    ><ArrowLeft size={32}/></button>
                 </div>
                 <div>
                     {/* show all the tags associated with the course */}

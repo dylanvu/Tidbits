@@ -1,4 +1,5 @@
 "use client";
+import Navbar from "@/components/Navbar";
 import ScrollableCarousel from "@/components/ScrollableCarousel";
 import { ITidbitVideo } from "@/components/TidbitVideo";
 import { useSearchParams } from "next/navigation";
@@ -47,6 +48,7 @@ export default function Reels() {
     return (
         <main>
             <ScrollableCarousel tidbits={tidbits} />
+            <Navbar current="home"/>
         </main>
     );
 }
