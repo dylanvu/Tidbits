@@ -40,6 +40,8 @@ from moviepy.editor import (
     concatenate_videoclips,
     concatenate_audioclips,
 )
+from moviepy.video.fx.freeze import freeze
+
 
 # AI and Machine Learning APIs
 from openai import AsyncOpenAI
@@ -68,7 +70,6 @@ Your task is to create a 30 second engaging and educational tiktok script for on
 Choose one of the more obscure and interesting topics from the transcript that most people dont know about.
 The tiktok should incorporate an engaging story or example.
 Do not have any emojis or hashtags in the script.
-The script should be in ssml format. But do not change voices, only add pauses and emphasis.
 The script should sound passionate, excited, and happy.
 """
 
@@ -209,7 +210,6 @@ async def post_talk(script):
             },
             "model_id": "eleven_multilingual_v2",
             "input": script,
-            "ssml": True,
         },
         "config": {"fluent": "false", "pad_audio": "0.0"},
         "source_url": img_urls[randInt],
@@ -242,7 +242,6 @@ async def post_talk(script):
                         await asyncio.sleep(5)
                 else:
                     print(f"Failed to get data, status code: {status_response.status}")
-                    return ""
 
         # Download the video
         async with session.get(result_url) as video_response:
@@ -276,7 +275,7 @@ async def async_generate_music(text):
     print("Link: ", link)
 
     attempt = 0
-    retry_delay = 5
+    retry_delay = 100
     async with aiohttp.ClientSession() as session:
         while attempt < 5:
             async with session.get(link) as response:
@@ -543,10 +542,14 @@ def edit_video(headshot, subtitles, pictures, images, music):
 
         # Adjust the final image clip to match the headshot video's duration if necessary
         if video_clip.duration < headshot_duration:
-            # Extend the last clip
-            last_clip = image_clips[-1].set_end(headshot_duration)
-            image_clips[-1] = last_clip
-            video_clip = concatenate_videoclips(image_clips, method="chain")
+            # Freeze the last clip
+            freeze_duration = headshot_duration - video_clip.duration
+            frozen_clip = freeze(
+                image_clips[-1], t="end", freeze_duration=freeze_duration
+            )
+            video_clip = concatenate_videoclips(
+                image_clips + [frozen_clip], method="compose"
+            )
         elif video_clip.duration > headshot_duration:
             # Truncate the video_clip to match the headshot_duration
             video_clip = video_clip.subclip(0, headshot_duration)
@@ -592,15 +595,28 @@ def edit_video(headshot, subtitles, pictures, images, music):
 
         final_audio = CompositeAudioClip([headshot_audio, looped_background_music])
 
+        video_clip = video_clip.set_duration(headshot_duration)
         # Create the final composite clip
         final_clip = CompositeVideoClip(
             [
-                video_clip.set_duration(headshot_duration),
+                video_clip,
                 *subtitle_clips,
-                headshot_clip.set_duration(headshot_duration),
+                headshot_clip,
             ],
             size=(1080, 1920),
         ).set_audio(final_audio)
+
+        final_clip = final_clip.subclip(0, headshot_duration)
+
+        # Debug print lengths of all clips
+        print("Headshot duration:", headshot_duration)
+        print("Video clip duration:", video_clip.duration)
+        print(
+            "Total subtitle duration:",
+            sum(subclip.duration for subclip in subtitle_clips),
+        )
+        for i, subtitle_clip in enumerate(subtitle_clips):
+            print(f"Subtitle {i + 1} duration:", subtitle_clip.duration)
 
         # Write the final video to a file
         final_path = "data/final_video.mp4"

@@ -51,7 +51,6 @@ async def generate(file_path):
                     "role": "user",
                     "content": text + script,
                 },
-                {"role": "assistant", "content": "<"},
             ],
             model="claude-3-opus-20240229",
         )
@@ -59,7 +58,7 @@ async def generate(file_path):
         return message.content
 
     response = await generate_text(text, prompt)
-    script = f"<{response[0].text}"
+    script = response[0].text
 
     async def generate_text(text, script):
         message = await client.messages.create(
@@ -95,6 +94,13 @@ async def generate(file_path):
     print("Music and headshot generation took: ", time.time() - cur_time)
     music = music_result
     headshot, images, pictures, captions = headshot_result
+
+    # Debug, save music as mp3, headshot as mp4
+    with open("music.mp3", "wb") as f:
+        f.write(music)
+
+    with open("headshot.mp4", "wb") as f:
+        f.write(headshot)
 
     # Edit the video
     cur_time = time.time()
