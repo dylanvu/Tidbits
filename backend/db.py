@@ -47,11 +47,6 @@ async def download_reel(vid: int):
 
 
 async def upload_prompt_and_generate_reel(file: bytes):
-    path = "prompt.mp4"
-    # upload to storage as fallback
-    await client.storage.from_(bucket).upload(
-        path, file, file_options={"content-type": "video/mp4", "upsert": "true"}
-    )
     temp = "temp.mp4"
     with open(temp, "wb+") as f:
         f.write(file)
