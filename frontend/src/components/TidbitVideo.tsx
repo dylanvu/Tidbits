@@ -9,12 +9,19 @@ export interface ITidbitVideo {
     tag: string;
     url: string;
 }
-function TidbitVideo({ tidbit }: { tidbit: ITidbitVideo }) {
+function TidbitVideo({
+    tidbit,
+    active,
+}: {
+    tidbit: ITidbitVideo;
+    active: boolean;
+}) {
     return (
         <div>
             <div>{tidbit.tag}</div>
             <video
                 src={tidbit.url}
+                // {...(active ? { autoPlay: true } : {})}
                 autoPlay
                 controls
                 style={{ width: "auto", height: "70vh" }}
@@ -33,7 +40,9 @@ function TidbitVideo({ tidbit }: { tidbit: ITidbitVideo }) {
                 <div>
                     {/* username and course */}
                     <div>
-                        <span className={globalStyles.p}>{tidbit.username}</span>
+                        <span className={globalStyles.p}>
+                            {tidbit.username}
+                        </span>
                         <span className="float-right">{tidbit.course}</span>
                     </div>
                     {/* tidbit description */}
