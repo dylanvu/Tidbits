@@ -32,10 +32,8 @@ export default function Home() {
                 // set the status to render the loading bar
                 setStatus("waiting");
                 axios
-                    .post("prompt", file, {
-                        headers: {
-                            "Content-Type": file.type,
-                        },
+                    .postForm("prompt", {
+                        file: file,
                     })
                     .then((res) => {
                         console.log(res);
