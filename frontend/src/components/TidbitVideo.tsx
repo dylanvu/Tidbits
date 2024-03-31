@@ -1,21 +1,8 @@
 import globalStyles from "@/styles/Global.module.sass";
 import { ArrowLeft } from "lucide-react";
-export interface ITidbitVideo {
-    description: string;
-    course: string;
-    username: string;
-    pfp: string;
-    song: string;
-    tag: string;
-    url: string;
-}
-function TidbitVideo({
-    tidbit,
-    active,
-}: {
-    tidbit: ITidbitVideo;
-    active: boolean;
-}) {
+import { tidbit } from "@/app/browse/course";
+
+function TidbitVideo({ tidbit, active }: { tidbit: tidbit; active: boolean }) {
     return (
         <div>
             {/* heading for reels */}
@@ -32,16 +19,10 @@ function TidbitVideo({
             <div className={globalStyles.videoBackground}>
                 {active && (
                     <video
-                        src={tidbit.url}
+                        src={tidbit.videoUrl}
                         // {...(active ? { autoPlay: true } : {})}
                         autoPlay
                         controls
-                        style={{
-                            width: "auto",
-                            top: "40vh",
-                            height: "80vh",
-                            overflowY: "hidden",
-                        }}
                         loop
                         disablePictureInPicture
                     />
@@ -50,7 +31,7 @@ function TidbitVideo({
                 <div className={globalStyles.reelContain}>
                     <div>
                         <img
-                            src={tidbit.pfp}
+                            src="./profile.png"
                             draggable={false}
                             style={{
                                 width: "6vh",
@@ -64,7 +45,7 @@ function TidbitVideo({
                         {/* username and course */}
                         <div className={globalStyles.reelsHeading}>
                             <span className={globalStyles.reelText}>
-                                <b>{tidbit.username}</b>
+                                <b>@profjasmine</b>
                             </span>
                             <span
                                 className={globalStyles.reelText}

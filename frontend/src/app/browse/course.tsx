@@ -4,14 +4,28 @@ import axios from "axios";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import globalStyles from "@/styles/Global.module.sass";
-axios.defaults.baseURL = "https://tidbits.onrender.com";
 import { ArrowLeft } from "lucide-react";
-interface preview {
+import ScrollableCarousel from "@/components/ScrollableCarousel";
+axios.defaults.baseURL = "https://tidbits.onrender.com";
+export interface tidbit {
     title: string;
     duration: number;
     url: string;
     vid: string;
     tag: string | null;
+    description: string;
+    course: string;
+    videoUrl: string;
+}
+
+export interface ITidbitVideo {
+    // description: string;
+    // course: string;
+    // username: string;
+    // pfp: string;
+    // song: string;
+    // tag: string;
+    // videoUrl: string;
 }
 
 // TODO: retrieve this from the backend
@@ -26,10 +40,11 @@ function CourseUI({
     setCurrentCourse: Dispatch<SetStateAction<string | null>>;
 }) {
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
-    const [previews, setPreviews] = useState<preview[]>([]);
+    const [previews, setPreviews] = useState<tidbit[]>([]);
+    const [vid, setVid] = useState<string | null>(null);
     useEffect(() => {
         // retrieve all the reel data associated with the user
-        axios.get("reels/info?uid=test").then((res) => {
+        axios.get("reels/info?uid=test&course=CS50").then((res) => {
             // now, we have to iterate through all of the reels and display their preview images
             const data = res.data;
             console.log(data);
@@ -44,12 +59,16 @@ function CourseUI({
 
                         // set the state through a functional update to avoid concurrency issues
                         setPreviews((prevPreviews) => {
-                            const newPreview = {
+                            const newPreview: tidbit = {
                                 title: tidbitData.name,
                                 duration: tidbitData.duration_seconds,
                                 vid: tidbitData.id,
                                 url: url,
                                 tag: thumbnailData.tag ?? null,
+                                description: tidbitData.description,
+                                course: tidbitData.course,
+                                // TODO: Fix this
+                                videoUrl: "./example/trees.mp4",
                             };
                             return [...prevPreviews, newPreview];
                         });
@@ -57,126 +76,102 @@ function CourseUI({
             }
         });
     }, []);
-    useEffect(() => {
-        console.log(selectedTags);
-    }, [selectedTags]);
-    return (
-        //* course inner header
-        <div>
-            {/* header */}
-            <div
-                className={globalStyles.courseHeading}
-                style={{ justifyItems: "flex-start" }}
-            >
-                <div className={globalStyles.headingRow}>
-                    <button
-                        className={globalStyles.backButton}
-                        onClick={() => setCurrentCourse(null)}
+    if (vid === null) {
+        return (
+            //* course inner header
+            <div>
+                {/* header */}
+                <div
+                    className={globalStyles.courseHeading}
+                    style={{ justifyItems: "flex-start" }}
+                >
+                    <div className={globalStyles.headingRow}>
+                        <button
+                            className={globalStyles.backButton}
+                            onClick={() => setCurrentCourse(null)}
+                        >
+                            <ArrowLeft size={32} />
+                        </button>
+                        <div className={globalStyles.h1}>
+                            &nbsp;&nbsp;{course}{" "}
+                        </div>
+                    </div>
+                    <div>
+                        {/* filters */}
+                        <div className={globalStyles.tagsContain}>
+                            {/* show all the tags associated with the course */}
+                            {tags.map((tag, index) => (
+                                <button
+                                    key={`${tag}-${index}`}
+                                    onClick={() => {
+                                        if (selectedTags.has(tag)) {
+                                            // remove it
+                                            const deepClonedSet: Set<string> =
+                                                new Set(
+                                                    JSON.parse(
+                                                        JSON.stringify([
+                                                            ...selectedTags,
+                                                        ]),
+                                                    ),
+                                                );
+                                            deepClonedSet.delete(tag);
+                                            setSelectedTags(deepClonedSet);
+                                        } else {
+                                            // add it
+                                            // deep clonse
+                                            const deepClonedSet: Set<string> =
+                                                new Set(
+                                                    JSON.parse(
+                                                        JSON.stringify([
+                                                            ...selectedTags,
+                                                            tag,
+                                                        ]),
+                                                    ),
+                                                );
+                                            setSelectedTags(deepClonedSet);
+                                        }
+                                    }}
+                                    className={`${
+                                        selectedTags.has(tag)
+                                            ? globalStyles.selected
+                                            : globalStyles.unselected
+                                    } ${globalStyles.p}`}
+                                >
+                                    {tag}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div
+                        className={`${globalStyles.neighbors} ${globalStyles.body}`}
                     >
-                        <ArrowLeft size={32} />
-                    </button>
-                    <div className={globalStyles.h1}>&nbsp;&nbsp;{course} </div>
-                </div>
-                <div>
-                    {/* show all the tags associated with the course */}
-                    {tags.map((tag, index) => (
-                        <button
-                            key={`${tag}-${index}`}
-                            onClick={() => {
-                                if (selectedTags.has(tag)) {
-                                    // remove it
-                                    const deepClonedSet: Set<string> = new Set(
-                                        JSON.parse(
-                                            JSON.stringify([...selectedTags]),
-                                        ),
-                                    );
-                                    deepClonedSet.delete(tag);
-                                    setSelectedTags(deepClonedSet);
-                                } else {
-                                    // add it
-                                    // deep clone
-                                    const deepClonedSet: Set<string> = new Set(
-                                        JSON.parse(
-                                            JSON.stringify([
-                                                ...selectedTags,
-                                                tag,
-                                            ]),
-                                        ),
-                                    );
-                                    setSelectedTags(deepClonedSet);
-                                }
-                            }}
-                            className={selectedTags.has(tag) ? "selected" : ""}
-                        >
-                            {/* {"<-asdfas"} */}
-                        </button>
-                    ))}
-                </div>
-
-                {/* filters */}
-                <div className={globalStyles.tagsContain}>
-                    {/* show all the tags associated with the course */}
-                    {tags.map((tag) => (
-                        <button
-                            key={1}
-                            onClick={() => {
-                                if (selectedTags.has(tag)) {
-                                    // remove it
-                                    const deepClonedSet: Set<string> = new Set(
-                                        JSON.parse(
-                                            JSON.stringify([...selectedTags]),
-                                        ),
-                                    );
-                                    deepClonedSet.delete(tag);
-                                    setSelectedTags(deepClonedSet);
-                                } else {
-                                    // add it
-                                    // deep clonse
-                                    const deepClonedSet: Set<string> = new Set(
-                                        JSON.parse(
-                                            JSON.stringify([
-                                                ...selectedTags,
-                                                tag,
-                                            ]),
-                                        ),
-                                    );
-                                    setSelectedTags(deepClonedSet);
-                                }
-                            }}
-                            className={`${
-                                selectedTags.has(tag)
-                                    ? globalStyles.selected
-                                    : globalStyles.unselected
-                            } ${globalStyles.p}`}
-                        >
-                            {tag}
-                        </button>
-                    ))}
+                        {previews.map((preview, index) => {
+                            // filter through the tidbits for any selected tag
+                            if (
+                                selectedTags.size > 0 &&
+                                (preview.tag === null ||
+                                    !selectedTags.has(preview.tag))
+                            ) {
+                                return null;
+                            }
+                            return (
+                                <button
+                                    onClick={() => setVid(preview.vid)}
+                                    key={`preview-${preview.vid}-${index}`}
+                                >
+                                    <img src={preview.url} />
+                                    <div>{preview.title}</div>
+                                    <div>{preview.duration} seconds</div>
+                                </button>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
-            <div className={`${globalStyles.neighbors} ${globalStyles.body}`}>
-                {previews.map((preview, index) => {
-                    // filter through the tidbits for any selected tag
-                    if (
-                        selectedTags.size > 0 &&
-                        (preview.tag === null || !selectedTags.has(preview.tag))
-                    ) {
-                        return null;
-                    }
-                    return (
-                        <Link
-                            href={`/view?vid=${preview.vid}`}
-                            key={`preview-${preview.vid}-${index}`}
-                        >
-                            <img src={preview.url} />
-                            <div>{preview.title}</div>
-                            <div>{preview.duration} seconds</div>
-                        </Link>
-                    );
-                })}
-            </div>
-        </div>
-    );
+        );
+    } else {
+        return <ScrollableCarousel tidbits={previews} />;
+    }
 }
 
 export default CourseUI;

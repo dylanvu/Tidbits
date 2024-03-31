@@ -1,37 +1,44 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import ScrollableCarousel from "@/components/ScrollableCarousel";
-import { ITidbitVideo } from "@/components/TidbitVideo";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import axios from "axios";
+import { tidbit } from "../browse/course";
 
-const tidbits: ITidbitVideo[] = [
+axios.defaults.baseURL = "https://tidbits.onrender.com";
+
+const tidbits: tidbit[] = [
     {
         description:
             "Bubble sort algorithms compared a list of items in a sequence",
         course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
         tag: "Algorithms",
-        url: "./example/salad_1.mp4",
+        videoUrl: "./example/salad_1.mp4",
+        title: "Bubble Sort",
+        duration: 53,
+        url: "./example/thumbnail_example.png",
+        vid: "1",
     },
     {
         description: "Hashmaps access elements in constant time",
         course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
         tag: "Data Structures",
-        url: "./example/salad.mp4",
+        videoUrl: "./example/salad.mp4",
+        title: "Bubble Sort",
+        duration: 53,
+        url: "./example/thumbnail_example.png",
+        vid: "1",
     },
     {
         description: "Heap sorts items using a heap data structure",
         course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
         tag: "Algorithms",
-        url: "./example/trees.mp4",
+        videoUrl: "./example/trees.mp4",
+        title: "Bubble Sort",
+        duration: 53,
+        url: "./example/thumbnail_example.png",
+        vid: "1",
     },
 ];
 export default function Reels() {
@@ -44,11 +51,11 @@ export default function Reels() {
     } else {
         vid = vidParam;
     }
-    console.log(vid);
+
     return (
         <main>
             <ScrollableCarousel tidbits={tidbits} />
-            <Navbar current="home"/>
+            <Navbar current="home" />
         </main>
     );
 }

@@ -2,14 +2,15 @@
 import { MouseEvent as ReactMouseEvent, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, type PanInfo } from "framer-motion";
 import styles from "@/styles/components/ScrollableCarousel.module.sass";
-import TidbitVideo, { ITidbitVideo } from "./TidbitVideo";
+import TidbitVideo from "./TidbitVideo";
+import { tidbit } from "@/app/browse/course";
 
 // configuration variables on the animation
 const DRAG_THRESHOLD = 100;
 const FALLBACK_HEIGHT = 500;
 const CURSOR_SIZE = 80;
 
-function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
+function ScrollableCarousel({ tidbits }: { tidbits: tidbit[] }) {
     const containerRef = useRef<HTMLUListElement>(null);
     const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
     const [activeSlide, setActiveSlide] = useState(0);
