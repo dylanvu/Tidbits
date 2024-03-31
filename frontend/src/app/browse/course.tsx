@@ -3,7 +3,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-
+import globalStyles from "@/styles/Global.module.sass";
 axios.defaults.baseURL = "https://tidbits.onrender.com";
 
 interface preview {
@@ -55,50 +55,74 @@ function CourseUI({
         });
     }, []);
     return (
+        //* course inner header
         <div>
-            <div>
-                <button onClick={() => setCurrentCourse(null)}>{"<--"}</button>
-                &nbsp;&nbsp;{course}
-            </div>
-            <div>
-                {/* show all the tags associated with the course */}
-                {tags.map((tag) => (
+            {/* header */}
+            <div
+                className={globalStyles.courseHeading}
+                style={{ justifyItems: "flex-start" }}
+            >
+                <div className={globalStyles.headingRow}>
                     <button
-                        onClick={() => {
-                            if (selectedTags.has(tag)) {
-                                // remove it
-                                const deepClonedSet: Set<string> = new Set(
-                                    JSON.parse(
-                                        JSON.stringify([...selectedTags]),
-                                    ),
-                                );
-                                deepClonedSet.delete(tag);
-                                setSelectedTags(deepClonedSet);
-                            } else {
-                                // add it
-                                // deep clonse
-                                const deepClonedSet: Set<string> = new Set(
-                                    JSON.parse(
-                                        JSON.stringify([...selectedTags, tag]),
-                                    ),
-                                );
-                                setSelectedTags(deepClonedSet);
-                            }
-                        }}
-                        className={selectedTags.has(tag) ? "selected" : ""}
+                        className={globalStyles.backButton}
+                        onClick={() => setCurrentCourse(null)}
                     >
-                        {tag}
+                        {"<-"}
                     </button>
+                    <div className={globalStyles.h1}>&nbsp;&nbsp;{course} </div>
+                </div>
+
+                {/* filters */}
+                <div className={globalStyles.tagsContain}>
+                    {/* show all the tags associated with the course */}
+                    {tags.map((tag) => (
+                        <button
+                            key={1}
+                            onClick={() => {
+                                if (selectedTags.has(tag)) {
+                                    // remove it
+                                    const deepClonedSet: Set<string> = new Set(
+                                        JSON.parse(
+                                            JSON.stringify([...selectedTags]),
+                                        ),
+                                    );
+                                    deepClonedSet.delete(tag);
+                                    setSelectedTags(deepClonedSet);
+                                } else {
+                                    // add it
+                                    // deep clonse
+                                    const deepClonedSet: Set<string> = new Set(
+                                        JSON.parse(
+                                            JSON.stringify([
+                                                ...selectedTags,
+                                                tag,
+                                            ]),
+                                        ),
+                                    );
+                                    setSelectedTags(deepClonedSet);
+                                }
+                            }}
+                            className={`${
+                                selectedTags.has(tag)
+                                    ? globalStyles.selected
+                                    : globalStyles.unselected
+                            } ${globalStyles.p}`}
+                        >
+                            {tag}
+                        </button>
+                    ))}
+                </div>
+            </div>
+            <div className={`${globalStyles.neighbors} ${globalStyles.body}`}>
+                {previews.map((preview, index) => (
+                    // TODO: filter through the tidbits for any selected tag
+                    <Link href="/view" key={preview.title + `-${index}`}>
+                        <img src={preview.url} />
+                        <div>{preview.title}</div>
+                        <div>{preview.duration} seconds</div>
+                    </Link>
                 ))}
             </div>
-            {previews.map((preview, index) => (
-                // TODO: filter through the tidbits for any selected tag
-                <Link href="/view" key={preview.title + `-${index}`}>
-                    <img src={preview.url} />
-                    <div>{preview.title}</div>
-                    <div>{preview.duration} seconds</div>
-                </Link>
-            ))}
         </div>
     );
 }
