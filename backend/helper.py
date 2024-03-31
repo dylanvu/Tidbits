@@ -605,4 +605,13 @@ def edit_video(headshot, subtitles, pictures, images, music):
         ).set_audio(final_audio)
 
         # Write the final video to a file
-        final_clip.write_videofile("data/final_video.mp4", threads=8, fps=24)
+        final_path = "data/final_video.mp4"
+        final_clip.write_videofile(final_path, threads=8, fps=24)
+        return vid_duration(final_path)
+
+
+def vid_duration(filename):
+    import cv2
+    video = cv2.VideoCapture(filename)
+    duration = video.get(cv2.CAP_PROP_POS_MSEC)
+    return duration

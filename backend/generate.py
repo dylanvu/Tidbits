@@ -101,8 +101,9 @@ async def generate(file_path):
 
     # Edit the video
     cur_time = time.time()
-    edit_video(headshot, captions, pictures, images, music)
+    duration = edit_video(headshot, captions, pictures, images, music)
     print("Video editing took: ", time.time() - cur_time)
+    return int(duration)
 
 
 # await generate("data/short_dsa.mp4")

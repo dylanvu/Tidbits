@@ -1,8 +1,10 @@
+from typing import Union
 from io import FileIO, BufferedReader
 from pathlib import Path
 from supabase_py_async import create_client, AsyncClient
 
 from config import settings
+from generate import generate
 
 client: AsyncClient = None
 bucket: str = settings.SUPABASE_BUCKET
@@ -50,16 +52,42 @@ async def upload_prompt_and_generate_reel(file: bytes):
     await client.storage.from_(bucket).upload(
         path, file, file_options={"content-type": "video/mp4", "upsert": "true"}
     )
-    # TODO: heavylifting begins here
-    # use file directly
-    # reel = ?
-    # await upload_reel(reel, fields...)
+    temp = "temp.mp4"
+    with open(temp, "wb+") as f:
+        f.write(file)
+    duration = await generate(temp)
+    reel_path = "data/final_video.mp4"
+    await upload_reel(
+        reel_path,
+        duration=duration,
+        tag="physics",
+        name="Demo Reel",
+        description="This is a trial reel on a non-CS topic.",
+    )
 
 
-async def upload_reel(file: BufferedReader | bytes | FileIO | str | Path):
-    # TODO: insert all fields: duration, tag, name, description
-    res = await client.table("reels").insert({}).execute()
+async def upload_reel(file: Union[BufferedReader, bytes, FileIO, str, Path], **kwargs):
+    res = (
+        await client.table("reels")
+        .upsert(
+            {
+                "duration_seconds": kwargs.get("duration"),
+                "tag": kwargs.get("tag"),
+                "name": kwargs.get("name"),
+                "description": kwargs.get("description"),
+            }
+        )
+        .execute()
+    )
     vid = res.data[0]["id"]
+    await client.table("main").upsert(
+        {
+            "uid": "test",
+            "course": "Kinematics",
+            "instructor": "Walter Lewin",
+            "vid": vid,
+        }
+    ).execute()
     path = f"{vid}.mp4"
     res = await client.storage.from_(bucket).upload(path, file)
     return res
