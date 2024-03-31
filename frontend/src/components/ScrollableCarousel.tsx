@@ -157,9 +157,7 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
                                 draggable={false}
                                 onClick={disableDragClick}
                                 className={`${
-                                    active
-                                        ? "mt-4 flex justify-center"
-                                        : "hidden"
+                                    active ? "flex justify-center" : "hidden"
                                 } ${styles.video}`}
                             >
                                 <TidbitVideo tidbit={tidbit} active={active} />
