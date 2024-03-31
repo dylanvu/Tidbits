@@ -6,16 +6,9 @@ function TidbitVideo({ tidbit, active }: { tidbit: tidbit; active: boolean }) {
     return (
         <div>
             {/* heading for reels */}
-            <div className={globalStyles.headingRow}>
-                {/* <button
-                    className={globalStyles.backButton}
-                    // onClick={() => setCurrentCourse(null)}
-                >
-                    <ArrowLeft size={26} />
-                </button> */}
-                <div className={globalStyles.p}>{tidbit.tag}</div>
-            </div>
+            <div className={globalStyles.headingRowCpy}></div>
             {/* video content */}
+            {/* <div className={globalStyles.videoBackground}> */}
             <div className={globalStyles.videoBackground}>
                 {active && (
                     <video
