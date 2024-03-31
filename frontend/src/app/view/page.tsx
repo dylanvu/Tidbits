@@ -12,6 +12,7 @@ const tidbits: ITidbitVideo[] = [
         pfp: "./profile.png",
         song: "Mozart",
         tag: "Algorithms",
+        url: "./example/salad_1.mp4",
     },
     {
         description: "Hashmaps access elements in constant time",
@@ -20,6 +21,7 @@ const tidbits: ITidbitVideo[] = [
         pfp: "./profile.png",
         song: "Mozart",
         tag: "Data Structures",
+        url: "./example/salad.mp4",
     },
     {
         description: "Heap sorts items using a heap data structure",
@@ -28,6 +30,7 @@ const tidbits: ITidbitVideo[] = [
         pfp: "./profile.png",
         song: "Mozart",
         tag: "Algorithms",
+        url: "./example/trees.mp4",
     },
 ];
 export default function Reels() {

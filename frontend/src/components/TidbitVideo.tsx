@@ -5,12 +5,18 @@ export interface ITidbitVideo {
     pfp: string;
     song: string;
     tag: string;
+    url: string;
 }
 function TidbitVideo({ tidbit }: { tidbit: ITidbitVideo }) {
     return (
         <div>
             <div>{tidbit.tag}</div>
-            <video src="./bubble_sort.mp4" autoPlay controls />
+            <video
+                src={tidbit.url}
+                autoPlay
+                controls
+                style={{ width: "auto", height: "70vh" }}
+            />
             {/* overlay */}
             <div>
                 <div>
