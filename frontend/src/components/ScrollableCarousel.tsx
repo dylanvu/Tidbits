@@ -136,7 +136,9 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
                         <motion.li
                             layout
                             key={index}
-                            ref={(el) => (itemsRef.current[index] = el)}
+                            ref={(el) => {
+                                itemsRef.current[index] = el;
+                            }}
                             transition={{
                                 ease: "easeInOut",
                                 duration: 0.4,
