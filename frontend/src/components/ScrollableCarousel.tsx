@@ -16,8 +16,6 @@ function ScrollableCarousel({ tidbits }: { tidbits: tidbit[] }) {
     const containerRef = useRef<HTMLUListElement>(null);
     const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
     const [activeSlide, setActiveSlide] = useState(0);
-    const canScrollPrev = activeSlide > 0;
-    const canScrollNext = activeSlide < tidbits.length - 1;
 
     const offsetY = useMotionValue(0);
     const animatedY = useSpring(offsetY, {
@@ -39,12 +37,8 @@ function ScrollableCarousel({ tidbits }: { tidbits: tidbit[] }) {
 
         const currentOffset = offsetY.get();
 
-        //snap back if not dragged far enough or if at the start/end of the list
-        if (
-            Math.abs(dragOffset) < DRAG_THRESHOLD ||
-            (!canScrollPrev && dragOffset > 0) ||
-            (!canScrollNext && dragOffset < 0)
-        ) {
+        //snap back if not dragged far enough
+        if (Math.abs(dragOffset) < DRAG_THRESHOLD) {
             animatedY.set(currentOffset);
             return;
         }
@@ -56,46 +50,38 @@ function ScrollableCarousel({ tidbits }: { tidbits: tidbit[] }) {
         - if it is, add/subtract the width of the next/prev item to the offsetWidth
         - if it isn't, snap to the next/prev item
         */
-        for (
-            let i = activeSlide;
-            dragOffset > 0 ? i >= 0 : i < itemsRef.current.length;
-            dragOffset > 0 ? i-- : i++
-        ) {
-            const item = itemsRef.current[i];
-            if (item === null) continue;
-            const itemOffset = item.offsetHeight;
+        const item = itemsRef.current[activeSlide];
+        if (item === null) return;
+        const itemOffset = item.offsetHeight;
+        const prevIndex = (activeSlide + tidbits.length - 1) % tidbits.length;
+        const nextIndex = (activeSlide + 1) % tidbits.length;
 
-            const prevItemHeight =
-                itemsRef.current[i - 1]?.offsetHeight ?? FALLBACK_HEIGHT;
-            const nextItemHeight =
-                itemsRef.current[i + 1]?.offsetHeight ?? FALLBACK_HEIGHT;
+        const prevItemHeight =
+            itemsRef.current[prevIndex]?.offsetHeight ?? FALLBACK_HEIGHT;
+        const nextItemHeight =
+            itemsRef.current[nextIndex]?.offsetHeight ?? FALLBACK_HEIGHT;
 
-            if (
-                (dragOffset > 0 && //dragging left
-                    dragOffset > offsetHeight + itemOffset && //dragged past item
-                    i > 1) || //not the first/second item
-                (dragOffset < 0 && //dragging right
-                    dragOffset < offsetHeight + -itemOffset && //dragged past item
-                    i < itemsRef.current.length - 2) //not the last/second to last item
-            ) {
-                dragOffset > 0
-                    ? (offsetHeight += prevItemHeight)
-                    : (offsetHeight -= nextItemHeight);
-                continue;
-            }
+        // if (
+        //     (dragOffset > 0 && //dragging left
+        //         dragOffset > offsetHeight + itemOffset && //dragged past item
+        //         activeSlide > 1) || //not the first/second item
+        //     (dragOffset < 0 && //dragging right
+        //         dragOffset < offsetHeight + -itemOffset && //dragged past item
+        //         activeSlide < itemsRef.current.length - 2) //not the last/second to last item
+        // ) {
+        //     dragOffset > 0
+        //         ? (offsetHeight += prevItemHeight)
+        //         : (offsetHeight -= nextItemHeight);
+        // }
 
-            if (dragOffset > 0) {
-                //prev
-                offsetY.set(currentOffset + offsetHeight + prevItemHeight);
-                // offsetY.set(0);
-                setActiveSlide(i - 1);
-            } else {
-                //next
-                offsetY.set(currentOffset + offsetHeight - nextItemHeight);
-                // offsetY.set(0);
-                setActiveSlide(i + 1);
-            }
-            break;
+        if (dragOffset > 0) {
+            //prev
+            offsetY.set(currentOffset + offsetHeight + prevItemHeight);
+            setActiveSlide(prevIndex);
+        } else {
+            //next
+            offsetY.set(currentOffset + offsetHeight - nextItemHeight);
+            setActiveSlide(nextIndex);
         }
     }
 
@@ -154,9 +140,6 @@ function ScrollableCarousel({ tidbits }: { tidbits: tidbit[] }) {
             >
                 {tidbits.map((tidbit, index) => {
                     const active = index === activeSlide;
-                    // if (!active) {
-                    //     return;
-                    // }
                     return (
                         <motion.li
                             layout

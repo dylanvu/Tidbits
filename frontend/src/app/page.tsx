@@ -60,21 +60,14 @@ export default function Home() {
 
     return (
         <main>
-            <div></div>
-            <div
-                // className={globalStyles.courseHeading}
-                style={{ justifyItems: "flex-start" }}
-            >
-                <div className={globalStyles.headingRow}>
-                    <button className={globalStyles.backButton}>
-                        <ArrowLeft size={32} />
-                    </button>
-                    <div className={globalStyles.p}>
-                        &nbsp;&nbsp;Generate new tidbit{" "}
-                    </div>
+            <div className={globalStyles.headingRow}>
+                <button className={globalStyles.backButton}>
+                    <ArrowLeft size={32} />
+                </button>
+                <div className={globalStyles.p}>
+                    &nbsp;&nbsp;Generate new tidbit{" "}
                 </div>
             </div>
-
             {ui}
             {status === "waiting" ? (
                 <button
