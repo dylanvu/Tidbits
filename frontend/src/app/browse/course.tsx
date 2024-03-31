@@ -69,7 +69,6 @@ function CourseUI({
                             );
 
                             const reelData = reelRes.data;
-                            console.log(reelData);
                             const reelUrl = URL.createObjectURL(reelData);
 
                             // set the state through a functional update to avoid concurrency issues
