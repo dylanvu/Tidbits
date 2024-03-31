@@ -15,7 +15,7 @@ import Navbar from "@/components/Navbar";
 
 type validStatuses = "input" | "waiting" | "done";
 
-axios.defaults.baseURL = process.env.SERVER_URL;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export default function Home() {
     const [file, setFile] = useState<File | null>(null);
@@ -37,6 +37,11 @@ export default function Home() {
                     })
                     .then((res) => {
                         console.log(res);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+                    .finally(() => {
                         setStatus("done");
                     });
                 // free memory when ever video component is unmounted
