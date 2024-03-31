@@ -15,7 +15,7 @@ import Navbar from "@/components/Navbar";
 
 type validStatuses = "input" | "waiting" | "done";
 
-axios.defaults.baseURL = "https://tidbits.onrender.com";
+axios.defaults.baseURL = process.env.SERVER_URL;
 
 export default function Home() {
     const [file, setFile] = useState<File | null>(null);
@@ -32,8 +32,8 @@ export default function Home() {
                 // set the status to render the loading bar
                 setStatus("waiting");
                 axios
-                    .postForm("prompt", {
-                        file: file,
+                    .postForm("generate", {
+                        prompt: file,
                     })
                     .then((res) => {
                         console.log(res);

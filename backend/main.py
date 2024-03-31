@@ -55,11 +55,14 @@ async def reel_by_vid(vid: int):
         raise HTTPException(status_code=404)
 
 
-@app.post("/prompt")
-async def upload_prompt(file: UploadFile):
-    file_bytes = await file.read()
-    res = await upload_video_prompt(file_bytes)
-    return res
+@app.post("/generate")
+async def geenrate_reel(prompt: UploadFile):
+    try:
+        file_bytes = await prompt.read()
+        await upload_prompt_and_generate_reel(file_bytes)
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500)
 
 
 @app.delete("/reel")

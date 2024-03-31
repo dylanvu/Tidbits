@@ -41,17 +41,18 @@ async def download_reel(vid: int):
     return await client.storage.from_(bucket).download(path)
 
 
-async def upload_video_prompt(file: BufferedReader | bytes | FileIO | str | Path):
+async def upload_prompt_and_generate_reel(
+    file: BufferedReader | bytes | FileIO | str | Path,
+):
     path = "prompt.mp4"
     # upload to storage as fallback
-    res = await client.storage.from_(bucket).upload(
+    await client.storage.from_(bucket).upload(
         path, file, file_options={"content-type": "video/mp4", "upsert": "true"}
     )
     # TODO: heavylifting begins here
     # use file directly
     # reel = ?
     # await upload_reel(reel, fields...)
-    return res
 
 
 async def upload_reel(file: BufferedReader | bytes | FileIO | str | Path):
@@ -68,4 +69,4 @@ async def delete_reel(vid: int):
     reel = f"{vid}.mp4"
     await client.storage.from_(bucket).remove([thumbnail, reel])
     data = await client.table("reels").delete().eq("id", vid).execute()
-    return data
+    return data.data
