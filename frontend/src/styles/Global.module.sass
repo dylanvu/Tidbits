@@ -242,6 +242,9 @@ $mainTransition: border 200ms ease
   position: absolute
   bottom: 180px
   z-index: 1 
+  align-content: flex-start
+
+
 
 .reelTextContain
   max-width: 80vw
@@ -251,7 +254,7 @@ $mainTransition: border 200ms ease
   position: relative
   
   height: 100vh
-  overflow-y: hidden 
+
  
 
 .videoBackground video  
@@ -264,5 +267,12 @@ $mainTransition: border 200ms ease
   transform: translate(-50%, -50%) 
   /* Optional: Add filter for darker overlay to make text content stand out */
   filter: brightness(50%) 
- 
+.uploadPage
+  @include center
+  gap: 12px
+  align-content: center
+  align-items: center
+  justify-content: center
+  justify-items: center
+  
   

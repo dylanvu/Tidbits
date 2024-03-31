@@ -30,8 +30,8 @@ async def courses_by_uid(uid: str):
 
 
 @app.get("/reels/info")
-async def reel_info_by_uid(uid: str):
-    data = await get_reel_metadata(uid)
+async def reel_info_by_uid(uid: str, course: str = ""):
+    data = await get_reel_metadata(uid, course)
     return data
 
 

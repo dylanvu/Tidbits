@@ -1,39 +1,13 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import ScrollableCarousel from "@/components/ScrollableCarousel";
-import { ITidbitVideo } from "@/components/TidbitVideo";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { tidbit } from "../browse/course";
 
-const tidbits: ITidbitVideo[] = [
-    {
-        description:
-            "Bubble sort algorithms compared a list of items in a sequence",
-        course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
-        tag: "Algorithms",
-        url: "./example/salad_1.mp4",
-    },
-    {
-        description: "Hashmaps access elements in constant time",
-        course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
-        tag: "Data Structures",
-        url: "./example/salad.mp4",
-    },
-    {
-        description: "Heap sorts items using a heap data structure",
-        course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
-        tag: "Algorithms",
-        url: "./example/trees.mp4",
-    },
-];
+axios.defaults.baseURL = "https://tidbits.onrender.com";
+
 export default function Reels() {
     const searchParams = useSearchParams();
 
@@ -44,11 +18,58 @@ export default function Reels() {
     } else {
         vid = vidParam;
     }
-    console.log(vid);
+
+    const [previews, setPreviews] = useState<tidbit[]>([]);
+
+    useEffect(() => {
+        // retrieve all the reel data associated with the user
+        axios.get(`reels/info?uid=test`).then((res) => {
+            // now, we have to iterate through all of the reels and display their preview images
+            const data = res.data;
+            console.log(data);
+            for (const tidbitData of data) {
+                axios
+                    .get(`thumbnail?vid=${tidbitData.id}`, {
+                        responseType: "blob",
+                    })
+                    .then(async (res) => {
+                        const thumbnailData = res.data;
+                        const url = URL.createObjectURL(thumbnailData);
+
+                        const reelRes = await axios.get(
+                            `reel?vid=${tidbitData.id}`,
+                            {
+                                responseType: "blob",
+                            },
+                        );
+
+                        const reelData = reelRes.data;
+                        const reelUrl = URL.createObjectURL(reelData);
+
+                        // set the state through a functional update to avoid concurrency issues
+                        setPreviews((prevPreviews) => {
+                            const newPreview: tidbit = {
+                                title: tidbitData.name,
+                                duration: tidbitData.duration_seconds,
+                                vid: tidbitData.id,
+                                imageUrl: url,
+                                tag: thumbnailData.tag ?? null,
+                                description: tidbitData.description,
+                                course: tidbitData.course,
+                                // TODO: Fix this
+                                videoUrl: reelUrl,
+                            };
+                            return [...prevPreviews, newPreview];
+                        });
+                    });
+            }
+        });
+    }, []);
+
     return (
         <main>
-            <ScrollableCarousel tidbits={tidbits} />
-            <Navbar current="home"/>
+            <ScrollableCarousel tidbits={previews} />
+            <Navbar current="home" />
         </main>
     );
 }
