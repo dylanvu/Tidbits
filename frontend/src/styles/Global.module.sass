@@ -92,10 +92,11 @@ $mainTransition: border 200ms ease
 //! buttons
 .primary  
   cursor: pointer 
-  padding: 8px 22px
+  padding: 12px 22px
   white-space: nowrap 
   outline: 0 
   border: 0 
+  font-size: 22px
   font-weight: 600
   color: #fff
   border-radius: $smallBorder
@@ -206,6 +207,7 @@ $mainTransition: border 200ms ease
   top: 0
   justify-content: start
   overflow-x: hidden
+  margin-bottom: 12px
 .headingRow
   @include row
   justify-items: flex-start
@@ -274,5 +276,15 @@ $mainTransition: border 200ms ease
   align-items: center
   justify-content: center
   justify-items: center
-  
-  
+  gap: 8px
+  height: 72vh
+.videosContain
+  width: 100vw
+  display: grid
+  place-content: center
+  grid-template-columns: repeat(2, 1fr)
+  gap: 18px
+.videoElement
+  img
+    border-radius: $largeBorder
+    width: 40vw
