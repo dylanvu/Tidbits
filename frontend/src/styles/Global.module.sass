@@ -15,7 +15,7 @@ $iconBG: #EBEBF6
 
 //! formatting
 $largeBorder: 24px
-$smallBorder: 18px
+$smallBorder: 12px
 $cardPadding: 18px
 $iconPadding: 6px 12px
 
@@ -24,19 +24,22 @@ $iconPadding: 6px 12px
   font-size: $h1text
   font-weight: 800
   color: $text-color
+  margin: 0
 .h2
   font-size: $h2text
   font-weight: 800
   color: $text-color
+  margin: 0
 .p
   font-size: $p
   font-weight: 600
   color: $iconColor
+  margin: 0
 
 //! buttons
 .primary  
   cursor: pointer 
-  padding: 22px 8px 
+  padding: 8px 22px
   white-space: nowrap 
   outline: 0 
   border: 0 
@@ -46,21 +49,44 @@ $iconPadding: 6px 12px
   background-color: $aqua
 
 //! primary cards
+@mixin row()
+  display: flex
+  flex-direction: row
+  white-space: nowrap
+  align-content: center
+  justify-content: center
+  justify-items: center
+  align-items: center
+  gap: 4px
+@mixin column()
+  display: flex
+  flex-direction: column
+  gap: 4px
+  align-content: start
 @mixin fitWH
   width: 100%
   height: fit-content
-
+.row
+  @include row
+.column
+  @includle column
 .card
   padding: $cardPadding
   border-radius: $largeBorder
   @include fitWH
   background-color: #fff
+  &.image
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
 
 .iconTag
+  @include row
   padding: $iconPadding
   border-radius: 1000px
   background-color: $iconBG
   font-size: $tagText
   width: fit-content
   font-weight: 600
+  color: $iconColor
+  gap: 4px
   

@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI, Response, HTTPException
+from fastapi import FastAPI, Response, HTTPException, UploadFile
 
 from db import *
 from events import lifespan
@@ -42,6 +42,18 @@ async def reel_by_vid(vid: int):
     except Exception as e:
         print(e)
         raise HTTPException(status_code=404)
+
+
+@app.post("/prompt")
+async def upload_prompt(file: UploadFile):
+    res = await upload_video_prompt(file.file)
+    return res
+
+
+@app.delete("/reel")
+async def delete_by_vid(vid: int):
+    data = await delete_reel(vid)
+    return data
 
 
 if __name__ == "__main__":
