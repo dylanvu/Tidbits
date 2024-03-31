@@ -11,6 +11,7 @@ interface preview {
     duration: number;
     url: string;
     vid: string;
+    tag: string | null;
 }
 
 // TODO: retrieve this from the backend
@@ -47,6 +48,7 @@ function CourseUI({
                                 duration: tidbitData.duration_seconds,
                                 vid: tidbitData.id,
                                 url: url,
+                                tag: thumbnailData.tag ?? null,
                             };
                             return [...prevPreviews, newPreview];
                         });
@@ -54,6 +56,9 @@ function CourseUI({
             }
         });
     }, []);
+    useEffect(() => {
+        console.log(selectedTags);
+    }, [selectedTags]);
     return (
         //* course inner header
         <div>
@@ -66,9 +71,42 @@ function CourseUI({
                     <button
                         className={globalStyles.backButton}
                         onClick={() => setCurrentCourse(null)}
-                    >
-                        {"<-"}
-                    </button>
+                    ></button>
+                </div>
+                <div>
+                    {/* show all the tags associated with the course */}
+                    {tags.map((tag, index) => (
+                        <button
+                            key={`${tag}-${index}`}
+                            onClick={() => {
+                                if (selectedTags.has(tag)) {
+                                    // remove it
+                                    const deepClonedSet: Set<string> = new Set(
+                                        JSON.parse(
+                                            JSON.stringify([...selectedTags]),
+                                        ),
+                                    );
+                                    deepClonedSet.delete(tag);
+                                    setSelectedTags(deepClonedSet);
+                                } else {
+                                    // add it
+                                    // deep clone
+                                    const deepClonedSet: Set<string> = new Set(
+                                        JSON.parse(
+                                            JSON.stringify([
+                                                ...selectedTags,
+                                                tag,
+                                            ]),
+                                        ),
+                                    );
+                                    setSelectedTags(deepClonedSet);
+                                }
+                            }}
+                            className={selectedTags.has(tag) ? "selected" : ""}
+                        >
+                            {"<-"}
+                        </button>
+                    ))}
                     <div className={globalStyles.h1}>&nbsp;&nbsp;{course} </div>
                 </div>
 
@@ -114,14 +152,25 @@ function CourseUI({
                 </div>
             </div>
             <div className={`${globalStyles.neighbors} ${globalStyles.body}`}>
-                {previews.map((preview, index) => (
-                    // TODO: filter through the tidbits for any selected tag
-                    <Link href="/view" key={preview.title + `-${index}`}>
-                        <img src={preview.url} />
-                        <div>{preview.title}</div>
-                        <div>{preview.duration} seconds</div>
-                    </Link>
-                ))}
+                {previews.map((preview, index) => {
+                    // filter through the tidbits for any selected tag
+                    if (
+                        selectedTags.size > 0 &&
+                        (preview.tag === null || !selectedTags.has(preview.tag))
+                    ) {
+                        return null;
+                    }
+                    return (
+                        <Link
+                            href={`/view?vid=${preview.vid}`}
+                            key={`preview-${preview.vid}-${index}`}
+                        >
+                            <img src={preview.url} />
+                            <div>{preview.title}</div>
+                            <div>{preview.duration} seconds</div>
+                        </Link>
+                    );
+                })}
             </div>
         </div>
     );
