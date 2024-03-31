@@ -1,7 +1,8 @@
 "use client";
-
+import globalStyles from "@/styles/Global.module.sass";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
+import { global } from "styled-jsx/css";
 
 export interface StudySet {
     title: string;
@@ -19,16 +20,12 @@ function StudySetCard({
     return (
         // feel free to remove the styling here
         <div
-            style={{
-                backgroundColor: "gray",
-                margin: "10px",
-                cursor: "pointer",
-            }}
+            className={globalStyles.card}
             // TODO: Link this to the right page
             onClick={() => setCurrentCourse(set.title)}
         >
-            <div>{set.title}</div>
-            <div>{set.instructor}</div>
+            <div className={globalStyles.h2}>{set.title}</div>
+            <div className={globalStyles.p}>{set.instructor}</div>
         </div>
     );
 }

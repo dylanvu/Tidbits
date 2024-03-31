@@ -1,7 +1,8 @@
 import DailyTidbit, { IDailyTidbit } from "@/components/DailyTidbit";
 import StudySetCard, { StudySet } from "@/components/StudySetCard";
+import { GlobalStyle } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-
+import globalStyles from "@/styles/Global.module.sass";
 function FoldersUI({
     sets,
     daily,
@@ -14,15 +15,12 @@ function FoldersUI({
     return (
         <div>
             <div
-                style={{
-                    backgroundColor: "gray",
-                    marginLeft: "10%",
-                    marginRight: "10%",
-                }}
+                className={globalStyles.container}
             >
-                <div>Your Daily Tidbit</div>
+                <div className={globalStyles.p}>Your Daily Tidbit</div>
                 <DailyTidbit tidbit={daily} />
             </div>
+            
             <div>
                 {sets.map((set, index) => {
                     return (
