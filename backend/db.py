@@ -26,7 +26,7 @@ async def get_courses(uid: str):
     return data.data
 
 
-async def get_reel_metadata(uid: int) -> list:
+async def get_reel_metadata(uid: str) -> list:
     data = await client.table("user_reels").select("*").eq("uid", uid).execute()
     return data.data
 
@@ -60,5 +60,5 @@ async def delete_reel(vid: int):
     thumbnail = f"{vid}.jpeg"
     reel = f"{vid}.mp4"
     await client.storage.from_(bucket).remove([thumbnail, reel])
-    data = await client.table("reels").delete().eq("vid", vid).execute()
+    data = await client.table("reels").delete().eq("id", vid).execute()
     return data

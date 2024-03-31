@@ -22,7 +22,6 @@ export default function Home() {
         if (file) {
             if (status === "input") {
                 // create the preview
-                // create the preview
                 const objectUrl = URL.createObjectURL(file);
                 setPreview(objectUrl);
 
