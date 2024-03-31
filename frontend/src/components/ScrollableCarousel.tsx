@@ -76,11 +76,27 @@ function ScrollableCarousel({ tidbits }: { tidbits: tidbit[] }) {
 
         if (dragOffset > 0) {
             //prev
-            offsetY.set(currentOffset + offsetHeight + prevItemHeight);
+            let newOffset = currentOffset + offsetHeight + prevItemHeight;
+            // if (newOffset === nextItemHeight * tidbits.length) {
+            //     newOffset = 0;
+            // }
+            // console.log(
+            //     "new",
+            //     newOffset,
+            //     "current",
+            //     currentOffset,
+            //     "next",
+            //     nextItemHeight,
+            // );
+            offsetY.set(newOffset);
             setActiveSlide(prevIndex);
         } else {
             //next
-            offsetY.set(currentOffset + offsetHeight - nextItemHeight);
+            let newOffset = currentOffset + offsetHeight - nextItemHeight;
+            if (newOffset === -nextItemHeight * tidbits.length) {
+                newOffset = 0;
+            }
+            offsetY.set(newOffset);
             setActiveSlide(nextIndex);
         }
     }
