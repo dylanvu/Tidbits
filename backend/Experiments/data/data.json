@@ -1,30 +1,4 @@
 {
-    "script": "Have you ever wondered how your contacts app works so fast? \ud83e\udd14 It uses a special trick called a trie! \ud83e\ude84 Imagine a tree \ud83c\udf33 but instead of leaves, it has arrays! \ud83d\udcca Each array represents a letter. To find your friend's name, you just follow the path of letters until you reach the end. \ud83d\ude0e Whether you have 3 friends or 3 million, it always takes the same number of steps! \u23f0 That's the magic of a trie - it's like having a super speedy dictionary \ud83d\udcd6\ud83d\udca8 right in your pocket! \ud83e\udd33 Pretty cool, huh? \ud83d\ude04 #CS50 #computerscience #datastructures",
-    "music_description": "Upbeat, curious electronic music with a steady clap beat",
-    "pictures": [
-        {
-            "description": "An animated question mark",
-            "timestamp": 0
-        },
-        {
-            "description": "A colorful, simplified diagram of a trie data structure",
-            "timestamp": 3
-        },
-        {
-            "description": "An animated tree sprouting arrays as leaves",
-            "timestamp": 6
-        },
-        {
-            "description": "A stopwatch ticking",
-            "timestamp": 12
-        },
-        {
-            "description": "A book rapidly flipping pages, then zooming into a smartphone screen",
-            "timestamp": 15
-        },
-        {
-            "description": "A smiling face with sunglasses",
-            "timestamp": 20
-        }
-    ]
+    "script": "<speak>\nHave you ever wondered how your contacts app finds your friends' numbers so quickly? \ud83e\udd14 It's thanks to a clever data structure called a <emphasis>hash table</emphasis>.\n\nImagine you're at a library, and you need to find a specific book. \ud83d\udcda You could search through every single shelf, but that would take forever! Instead, libraries use the <emphasis>Dewey Decimal System</emphasis>, which is like a hash table for books.\n\nIn a hash table, your friends' names are organized into different \"buckets\" based on the first letter of their name. \ud83c\udf6f So when you search for your friend \"Emma\", the app only needs to look in the \"E\" bucket, making the search <emphasis>lightning-fast</emphasis>! \u26a1\n\nThe catch? If you have too many friends with the same first letter, the buckets can overflow, slowing things down. \ud83d\ude05 But most of the time, hash tables are a <emphasis>game-changer</emphasis> for speedy searches! \ud83c\udf89\n\nSo the next time you find a contact in a flash, you can thank the power of hash tables! \ud83d\ude04\n<break time=\"1s\"/>\n</speak>",
+    "music_description": "Playful and quirky instrumental hip-hop track with a bouncy rhythm."
 }
