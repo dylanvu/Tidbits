@@ -57,9 +57,20 @@ function CourseUI({
                         .get(`thumbnail?vid=${tidbitData.id}`, {
                             responseType: "blob",
                         })
-                        .then((res) => {
+                        .then(async (res) => {
                             const thumbnailData = res.data;
                             const url = URL.createObjectURL(thumbnailData);
+
+                            const reelRes = await axios.get(
+                                `reel?vid=${tidbitData.id}`,
+                                {
+                                    responseType: "blob",
+                                },
+                            );
+
+                            const reelData = reelRes.data;
+                            console.log(reelData);
+                            const reelUrl = URL.createObjectURL(reelData);
 
                             // set the state through a functional update to avoid concurrency issues
                             setPreviews((prevPreviews) => {
@@ -72,7 +83,7 @@ function CourseUI({
                                     description: tidbitData.description,
                                     course: tidbitData.course,
                                     // TODO: Fix this
-                                    videoUrl: "./example/trees.mp4",
+                                    videoUrl: reelUrl,
                                 };
                                 return [...prevPreviews, newPreview];
                             });
