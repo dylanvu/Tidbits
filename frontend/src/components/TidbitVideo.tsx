@@ -18,6 +18,8 @@ function TidbitVideo({ tidbit }: { tidbit: ITidbitVideo }) {
                 autoPlay
                 controls
                 style={{ width: "auto", height: "70vh" }}
+                loop
+                disablePictureInPicture
             />
             {/* overlay */}
             <div>
