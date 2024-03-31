@@ -1,10 +1,24 @@
 import uvicorn
 from fastapi import FastAPI, Response, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 
 from db import *
 from events import lifespan
 
 app = FastAPI(lifespan=lifespan)
+
+origins = [
+    "http://localhost",
+    # TODO: Add frontend URL
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
