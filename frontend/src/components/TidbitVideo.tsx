@@ -9,12 +9,19 @@ export interface ITidbitVideo {
     tag: string;
     url: string;
 }
-function TidbitVideo({ tidbit }: { tidbit: ITidbitVideo }) {
+function TidbitVideo({
+    tidbit,
+    active,
+}: {
+    tidbit: ITidbitVideo;
+    active: boolean;
+}) {
     return (
         <div>
             <div>{tidbit.tag}</div>
             <video
                 src={tidbit.url}
+                // {...(active ? { autoPlay: true } : {})}
                 autoPlay
                 controls
                 style={{ width: "auto", height: "70vh" }}

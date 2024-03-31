@@ -132,6 +132,9 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
             >
                 {tidbits.map((tidbit, index) => {
                     const active = index === activeSlide;
+                    if (!active) {
+                        return;
+                    }
                     return (
                         <motion.li
                             layout
@@ -143,9 +146,9 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
                                 ease: "easeInOut",
                                 duration: 0.4,
                             }}
-                            style={{
-                                flexBasis: active ? "40%" : "30%",
-                            }}
+                            // style={{
+                            //     flexBasis: active ? "40%" : "30%",
+                            // }}
                         >
                             <div
                                 draggable={false}
@@ -156,7 +159,7 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
                                         : "hidden"
                                 } ${styles.video}`}
                             >
-                                <TidbitVideo tidbit={tidbit} />
+                                <TidbitVideo tidbit={tidbit} active={active} />
                             </div>
                         </motion.li>
                     );
