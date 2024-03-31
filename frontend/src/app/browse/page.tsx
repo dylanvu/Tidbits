@@ -35,7 +35,7 @@ export default function Browse() {
         window.scrollTo(0, 0);
     }, [currentCourse]);
     return (
-        <main>
+        <main className={globalStyles.body}>
             <div className={globalStyles.test}>
                 {/* switch the UIs depending on the render state */}
                 {currentCourse === null ? (
