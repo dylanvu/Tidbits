@@ -1,5 +1,5 @@
 import globalStyles from "@/styles/Global.module.sass";
-
+import { ArrowLeft } from "lucide-react";
 export interface ITidbitVideo {
     description: string;
     course: string;
@@ -18,48 +18,66 @@ function TidbitVideo({
 }) {
     return (
         <div>
-            <div>{tidbit.tag}</div>
-            <video
-                src={tidbit.url}
-                // {...(active ? { autoPlay: true } : {})}
-                autoPlay
-                controls
-                style={{ width: "auto", height: "70vh" }}
-                loop
-                disablePictureInPicture
-            />
-            {/* overlay */}
-            <div className={globalStyles.reelContain}>
-                <div>
-                    <img
-                        src={tidbit.pfp}
-                        draggable={false}
-                        style={{
-                            width: "6vh",
-                            height: "6vh",
-                            borderRadius: "100px",
-                        }}
-                    />
-                </div>
-                <div className={globalStyles.reelTextContain}>
-                    {/* username and course */}
-                    <div className={globalStyles.reelsHeading}>
-                        <span className={globalStyles.reelText}>
-                            <b>{tidbit.username}</b>
-                        </span>
-                        <span
-                            className={globalStyles.reelText}
-                            style={{ opacity: ".5" }}
-                        >
-                            {tidbit.course}
-                        </span>
+            {/* heading for reels */}
+            <div className={globalStyles.headingRow}>
+                <button
+                    className={globalStyles.backButton}
+                    // onClick={() => setCurrentCourse(null)}
+                >
+                    <ArrowLeft size={26} />
+                </button>
+                <div className={globalStyles.p}>{tidbit.tag}</div>
+            </div>
+            {/* video content */}
+            <div className={globalStyles.videoBackground}>
+                <video
+                    src={tidbit.url}
+                    // {...(active ? { autoPlay: true } : {})}
+                    autoPlay
+                    controls
+                    style={{
+                        width: "auto",
+                        top: "40vh",
+                        height: "80vh",
+                        overflowY: "hidden",
+                    }}
+                    loop
+                    disablePictureInPicture
+                />
+                {/* overlay */}
+                <div className={globalStyles.reelContain}>
+                    <div>
+                        <img
+                            src={tidbit.pfp}
+                            draggable={false}
+                            style={{
+                                width: "6vh",
+                                height: "6vh",
+                                borderRadius: "100px",
+                                overflowY: "hidden",
+                            }}
+                        />
                     </div>
-                    {/* tidbit description */}
-                    <div
-                        className={globalStyles.reelText}
-                        style={{ fontWeight: "400" }}
-                    >
-                        {tidbit.description}
+                    <div className={globalStyles.reelTextContain}>
+                        {/* username and course */}
+                        <div className={globalStyles.reelsHeading}>
+                            <span className={globalStyles.reelText}>
+                                <b>{tidbit.username}</b>
+                            </span>
+                            <span
+                                className={globalStyles.reelText}
+                                style={{ opacity: ".5" }}
+                            >
+                                {tidbit.course}
+                            </span>
+                        </div>
+                        {/* tidbit description */}
+                        <div
+                            className={globalStyles.reelText}
+                            style={{ fontWeight: "400" }}
+                        >
+                            {tidbit.description}
+                        </div>
                     </div>
                 </div>
             </div>

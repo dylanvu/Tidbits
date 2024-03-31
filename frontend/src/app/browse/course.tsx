@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import globalStyles from "@/styles/Global.module.sass";
 axios.defaults.baseURL = "https://tidbits.onrender.com";
-import {ArrowLeft} from "lucide-react"
+import { ArrowLeft } from "lucide-react";
 interface preview {
     title: string;
     duration: number;
@@ -72,7 +72,10 @@ function CourseUI({
                     <button
                         className={globalStyles.backButton}
                         onClick={() => setCurrentCourse(null)}
-                    ><ArrowLeft size={32}/></button>
+                    >
+                        <ArrowLeft size={32} />
+                    </button>
+                    <div className={globalStyles.h1}>&nbsp;&nbsp;{course} </div>
                 </div>
                 <div>
                     {/* show all the tags associated with the course */}
@@ -105,10 +108,9 @@ function CourseUI({
                             }}
                             className={selectedTags.has(tag) ? "selected" : ""}
                         >
-                            {"<-"}
+                            {/* {"<-asdfas"} */}
                         </button>
                     ))}
-                    <div className={globalStyles.h1}>&nbsp;&nbsp;{course} </div>
                 </div>
 
                 {/* filters */}
