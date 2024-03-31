@@ -1,0 +1,44 @@
+1
+00:00:00,000 --> 00:00:05,000
+ Have you ever heard of a tri? No, not the verb try. I'm talking about the data structure called a tri,
+
+2
+00:00:05,000 --> 00:00:12,000
+ spelled T-R-I-E. Imagine you're organizing a massive library but instead of books you're
+
+3
+00:00:12,000 --> 00:00:17,000
+ dealing with words. A tri is like a tree of arrays that allows you to store and retrieve
+
+4
+00:00:17,000 --> 00:00:24,000
+ these words at lightning-fast speeds. Picture each letter of the alphabet having its own shelf.
+
+5
+00:00:24,000 --> 00:00:28,000
+ To store a word, you simply place it on the shelf corresponding to its first letter.
+
+6
+00:00:28,000 --> 00:00:33,000
+ Then each subsequent letter gets its own subshelf branching off from the previous one.
+
+7
+00:00:35,000 --> 00:00:39,000
+ The magic happens when you're looking for a specific word. No matter how many words are
+
+8
+00:00:39,000 --> 00:00:45,000
+ in the library, you can find any word in the same amount of time just by following the path
+
+9
+00:00:45,000 --> 00:00:52,000
+ created by its letters. So the next time you're typing on your phone and the keyboard seems to
+
+10
+00:00:52,000 --> 00:00:57,000
+ magically predict the word you want, remember the humble tree? The unsung hero of lightning-fast
+
+11
+00:00:57,000 --> 00:00:59,000
+ word retrieval.
+
