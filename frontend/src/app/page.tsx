@@ -7,6 +7,7 @@ import {
     SetStateAction,
     useEffect,
     useState,
+    useRef,
 } from "react";
 import axios from "axios";
 import globalStyles from "@/styles/Global.module.sass";
@@ -99,6 +100,7 @@ function InputUI({
     file: File | null;
     setFile: Dispatch<SetStateAction<File | null>>;
 }) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const files = event.target.files;
         if (files) {
@@ -109,30 +111,29 @@ function InputUI({
         <div className={globalStyles.uploadPage}>
             <img src="./filesUploadImg.png"></img>
 
-          
-                <div
-                    className={globalStyles.h1}
-                    style={{ textAlign: "center" }}
-                >
-                    Add lecture video or audio file
-                </div>
-                <div className={globalStyles.p} style={{ textAlign: "center" }}>
-                    Upload your most recent lecture{" "}
-                </div>
+            <div className={globalStyles.h1} style={{ textAlign: "center" }}>
+                Add lecture video or audio file
+            </div>
+            <div className={globalStyles.p} style={{ textAlign: "center" }}>
+                Upload your most recent lecture{" "}
+            </div>
 
-                {/* <input
+            <label htmlFor="file-btn" style={{ cursor: "pointer" }}>
+                <button
+                    className={globalStyles.primary}
+                    onClick={() => fileInputRef.current?.click()}
+                >
+                    Upload file
+                </button>
+                <input
                     type="file"
                     hidden
                     id="file-btn"
+                    ref={fileInputRef}
                     onChange={handleChange}
                     accept=".mp3,.mp4,.mov"
-                /> */}
-                <label htmlFor="file-btn" style={{ cursor: "pointer" }}>
-                    <button className={globalStyles.primary}>
-                        Upload file
-                    </button>
-                </label>
-
+                />
+            </label>
         </div>
     );
 }
