@@ -10,7 +10,7 @@ axios.defaults.baseURL = "https://tidbits.onrender.com";
 export interface tidbit {
     title: string;
     duration: number;
-    url: string;
+    imageUrl: string;
     vid: string;
     tag: string | null;
     description: string;
@@ -67,7 +67,7 @@ function CourseUI({
                                     title: tidbitData.name,
                                     duration: tidbitData.duration_seconds,
                                     vid: tidbitData.id,
-                                    url: url,
+                                    imageUrl: url,
                                     tag: thumbnailData.tag ?? null,
                                     description: tidbitData.description,
                                     course: tidbitData.course,
@@ -163,7 +163,7 @@ function CourseUI({
                                     onClick={() => setVid(preview.vid)}
                                     key={`preview-${preview.vid}-${index}`}
                                 >
-                                    <img src={preview.url} />
+                                    <img src={preview.imageUrl} />
                                     <div>{preview.title}</div>
                                     <div>{preview.duration} seconds</div>
                                 </button>
