@@ -46,6 +46,7 @@ export default function Home() {
 
     return (
         <main>
+            <div>Generate new Tidbit</div>
             {ui}
             {status === "waiting" ? (
                 <button
