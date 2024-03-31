@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import globalStyles from "@/styles/Global.module.sass";
 import { Clock } from "lucide-react";
+
 export interface IDailyTidbit {
     title: string;
     course: string;
@@ -11,11 +12,11 @@ function DailyTidbit({ tidbit }: { tidbit: IDailyTidbit }) {
     const router = useRouter();
     return (
         <div className={`${globalStyles.test} ${globalStyles.card}`}>
-           <div className={globalStyles.row}>
+            <div className={globalStyles.row}>
                 <div className={globalStyles.column}>
                     <div className={globalStyles.h1}>{tidbit.title}</div>
                     <div className={globalStyles.p}>{tidbit.course}</div>
-                   {/* icon */}
+                    {/* icon */}
                     <div className={globalStyles.iconTag}>
                         {" "}
                         <Clock color={globalStyles.$iconColor} size={22} />
@@ -23,19 +24,17 @@ function DailyTidbit({ tidbit }: { tidbit: IDailyTidbit }) {
                     </div>
                 </div>
                 <div>
-                    <img src="./bubblePlaceHolder.png"></img> 
+                    <img src="./bubblePlaceHolder.png"></img>
                 </div>
-            </div> 
-            
-            
-           
+            </div>
+
             {/* TODO: link this to the real video */}
-            <button
+            {/* <button
                 onClick={() => router.push("/view")}
                 className={globalStyles.primary}
             >
                 Study now
-            </button>
+            </button> */}
         </div>
     );
 }

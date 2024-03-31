@@ -13,13 +13,13 @@ async def root():
 
 
 @app.get("/courses")
-async def courses_by_uid(uid: int):
+async def courses_by_uid(uid: str):
     data = await get_courses(uid)
     return data
 
 
 @app.get("/reels/info")
-async def reel_info_by_uid(uid: int):
+async def reel_info_by_uid(uid: str):
     data = await get_reel_metadata(uid)
     return data
 

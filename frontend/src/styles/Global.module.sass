@@ -1,7 +1,7 @@
 //! text
 $h1text: 22px
 $h2text: 20px
-$p: 14px
+$p: 16px
 $tagText: 12px
 
 //! colors
@@ -18,7 +18,20 @@ $largeBorder: 24px
 $smallBorder: 12px
 $cardPadding: 18px
 $iconPadding: 6px 12px
+$friends: 8px
+$neighbors: 12px
+//! global
 
+.body  
+  margin: 0 
+  overflow-x: hidden 
+  font-family: Inter, sans-serif
+  background-color: $backgroundColor
+  padding: 28px
+  gap: $neighbors
+  display: flex
+  flex-direction: column
+  justify-items: start
 //! text
 .h1
   font-size: $h1text
@@ -75,6 +88,7 @@ $iconPadding: 6px 12px
   border-radius: $largeBorder
   @include fitWH
   background-color: #fff
+  cursor: pointer
   &.image
     display: grid
     grid-template-columns: repeat(2, 1fr)
@@ -89,4 +103,7 @@ $iconPadding: 6px 12px
   font-weight: 600
   color: $iconColor
   gap: 4px
-  
+.container
+  display: flex
+  flex-direction: column
+  gap: $friends
