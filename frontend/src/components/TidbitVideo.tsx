@@ -14,7 +14,11 @@ function TidbitVideo({ tidbit }: { tidbit: ITidbitVideo }) {
             {/* overlay */}
             <div>
                 <div>
-                    <img src={tidbit.pfp} draggable={false} />
+                    <img
+                        src={tidbit.pfp}
+                        draggable={false}
+                        style={{ width: "auto", height: "10vh" }}
+                    />
                 </div>
                 <div>
                     {/* username and course */}

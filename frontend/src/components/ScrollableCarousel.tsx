@@ -131,10 +131,6 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
                 onDragEnd={handleDragSnap}
             >
                 {tidbits.map((tidbit, index) => {
-                    // TODO: This may cause a bug on the animation when dragging
-                    if (index !== activeSlide) {
-                        return;
-                    }
                     const active = index === activeSlide;
                     return (
                         <motion.li
