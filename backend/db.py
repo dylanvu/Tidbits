@@ -26,7 +26,7 @@ async def get_courses(uid: str):
     return data.data
 
 
-async def get_reel_metadata(uid: int) -> list:
+async def get_reel_metadata(uid: str) -> list:
     data = await client.table("user_reels").select("*").eq("uid", uid).execute()
     return data.data
 
