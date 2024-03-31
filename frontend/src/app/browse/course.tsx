@@ -42,39 +42,43 @@ function CourseUI({
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
     const [previews, setPreviews] = useState<tidbit[]>([]);
     const [vid, setVid] = useState<string | null>(null);
+    // format the course to be compatible with query data
+    let sanitizedCourse = course.replaceAll(" ", "%20");
     useEffect(() => {
         // retrieve all the reel data associated with the user
-        axios.get("reels/info?uid=test&course=CS50").then((res) => {
-            // now, we have to iterate through all of the reels and display their preview images
-            const data = res.data;
-            console.log(data);
-            for (const tidbitData of data) {
-                axios
-                    .get(`thumbnail?vid=${tidbitData.id}`, {
-                        responseType: "blob",
-                    })
-                    .then((res) => {
-                        const thumbnailData = res.data;
-                        const url = URL.createObjectURL(thumbnailData);
+        axios
+            .get(`reels/info?uid=test&course=${sanitizedCourse}`)
+            .then((res) => {
+                // now, we have to iterate through all of the reels and display their preview images
+                const data = res.data;
+                console.log(data);
+                for (const tidbitData of data) {
+                    axios
+                        .get(`thumbnail?vid=${tidbitData.id}`, {
+                            responseType: "blob",
+                        })
+                        .then((res) => {
+                            const thumbnailData = res.data;
+                            const url = URL.createObjectURL(thumbnailData);
 
-                        // set the state through a functional update to avoid concurrency issues
-                        setPreviews((prevPreviews) => {
-                            const newPreview: tidbit = {
-                                title: tidbitData.name,
-                                duration: tidbitData.duration_seconds,
-                                vid: tidbitData.id,
-                                url: url,
-                                tag: thumbnailData.tag ?? null,
-                                description: tidbitData.description,
-                                course: tidbitData.course,
-                                // TODO: Fix this
-                                videoUrl: "./example/trees.mp4",
-                            };
-                            return [...prevPreviews, newPreview];
+                            // set the state through a functional update to avoid concurrency issues
+                            setPreviews((prevPreviews) => {
+                                const newPreview: tidbit = {
+                                    title: tidbitData.name,
+                                    duration: tidbitData.duration_seconds,
+                                    vid: tidbitData.id,
+                                    url: url,
+                                    tag: thumbnailData.tag ?? null,
+                                    description: tidbitData.description,
+                                    course: tidbitData.course,
+                                    // TODO: Fix this
+                                    videoUrl: "./example/trees.mp4",
+                                };
+                                return [...prevPreviews, newPreview];
+                            });
                         });
-                    });
-            }
-        });
+                }
+            });
     }, []);
     if (vid === null) {
         return (
