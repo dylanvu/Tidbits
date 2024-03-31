@@ -62,8 +62,9 @@ function CourseUI({
             </div>
             <div>
                 {/* show all the tags associated with the course */}
-                {tags.map((tag) => (
+                {tags.map((tag, index) => (
                     <button
+                        key={`${tag}-${index}`}
                         onClick={() => {
                             if (selectedTags.has(tag)) {
                                 // remove it
@@ -93,7 +94,10 @@ function CourseUI({
             </div>
             {previews.map((preview, index) => (
                 // TODO: filter through the tidbits for any selected tag
-                <Link href="/view" key={preview.title + `-${index}`}>
+                <Link
+                    href={`/view?vid=${preview.vid}`}
+                    key={`preview-${preview.vid}-${index}`}
+                >
                     <img src={preview.url} />
                     <div>{preview.title}</div>
                     <div>{preview.duration} seconds</div>
