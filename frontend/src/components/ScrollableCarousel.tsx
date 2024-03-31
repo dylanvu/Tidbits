@@ -9,36 +9,7 @@ const DRAG_THRESHOLD = 10;
 const FALLBACK_HEIGHT = 500;
 const CURSOR_SIZE = 80;
 
-// TODO: Turn this into a prop
-const tidbits: ITidbitVideo[] = [
-    {
-        description:
-            "Bubble sort algorithms compared a list of items in a sequence",
-        course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
-        tag: "Algorithms",
-    },
-    {
-        description: "Hashmaps access elements in constant time",
-        course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
-        tag: "Data Structures",
-    },
-    {
-        description: "Heap sorts items using a heap data structure",
-        course: "CS50",
-        username: "@profjasmine",
-        pfp: "./profile.png",
-        song: "Mozart",
-        tag: "Algorithms",
-    },
-];
-
-function ScrollableCarousel() {
+function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
     const containerRef = useRef<HTMLUListElement>(null);
     const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
     const [activeSlide, setActiveSlide] = useState(0);
