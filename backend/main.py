@@ -7,10 +7,7 @@ from events import lifespan
 
 app = FastAPI(lifespan=lifespan)
 
-origins = [
-    "http://localhost",
-    # TODO: Add frontend URL
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
