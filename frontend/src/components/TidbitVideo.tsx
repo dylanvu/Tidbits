@@ -19,15 +19,17 @@ function TidbitVideo({
     return (
         <div>
             <div>{tidbit.tag}</div>
-            <video
-                src={tidbit.url}
-                // {...(active ? { autoPlay: true } : {})}
-                autoPlay
-                controls
-                style={{ width: "auto", height: "70vh" }}
-                loop
-                disablePictureInPicture
-            />
+            {active && (
+                <video
+                    src={tidbit.url}
+                    // {...(active ? { muted: true } : {})}
+                    autoPlay
+                    controls
+                    style={{ width: "auto", height: "70vh" }}
+                    loop
+                    disablePictureInPicture
+                />
+            )}
             {/* overlay */}
             <div className={globalStyles.reelContain}>
                 <div>

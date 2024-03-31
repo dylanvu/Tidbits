@@ -5,7 +5,7 @@ import styles from "@/styles/components/ScrollableCarousel.module.sass";
 import TidbitVideo, { ITidbitVideo } from "./TidbitVideo";
 
 // configuration variables on the animation
-const DRAG_THRESHOLD = 10;
+const DRAG_THRESHOLD = 100;
 const FALLBACK_HEIGHT = 500;
 const CURSOR_SIZE = 80;
 
@@ -84,10 +84,12 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
             if (dragOffset > 0) {
                 //prev
                 offsetY.set(currentOffset + offsetHeight + prevItemHeight);
+                // offsetY.set(0);
                 setActiveSlide(i - 1);
             } else {
                 //next
                 offsetY.set(currentOffset + offsetHeight - nextItemHeight);
+                // offsetY.set(0);
                 setActiveSlide(i + 1);
             }
             break;
@@ -115,6 +117,7 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
                 drag="y"
                 dragConstraints={{
                     top: -(FALLBACK_HEIGHT * (tidbits.length - 1)),
+                    // top: -FALLBACK_HEIGHT,
                     bottom: FALLBACK_HEIGHT,
                 }}
                 onMouseMove={({ currentTarget, clientX, clientY }) => {
@@ -132,9 +135,9 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
             >
                 {tidbits.map((tidbit, index) => {
                     const active = index === activeSlide;
-                    if (!active) {
-                        return;
-                    }
+                    // if (!active) {
+                    //     return;
+                    // }
                     return (
                         <motion.li
                             layout
@@ -146,9 +149,9 @@ function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
                                 ease: "easeInOut",
                                 duration: 0.4,
                             }}
-                            // style={{
-                            //     flexBasis: active ? "40%" : "30%",
-                            // }}
+                            style={{
+                                flexBasis: active ? "40%" : "30%",
+                            }}
                         >
                             <div
                                 draggable={false}
