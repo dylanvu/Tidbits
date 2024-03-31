@@ -30,20 +30,22 @@ function TidbitVideo({
             </div>
             {/* video content */}
             <div className={globalStyles.videoBackground}>
-                <video
-                    src={tidbit.url}
-                    // {...(active ? { autoPlay: true } : {})}
-                    autoPlay
-                    controls
-                    style={{
-                        width: "auto",
-                        top: "40vh",
-                        height: "80vh",
-                        overflowY: "hidden",
-                    }}
-                    loop
-                    disablePictureInPicture
-                />
+                {active && (
+                    <video
+                        src={tidbit.url}
+                        // {...(active ? { autoPlay: true } : {})}
+                        autoPlay
+                        controls
+                        style={{
+                            width: "auto",
+                            top: "40vh",
+                            height: "80vh",
+                            overflowY: "hidden",
+                        }}
+                        loop
+                        disablePictureInPicture
+                    />
+                )}
                 {/* overlay */}
                 <div className={globalStyles.reelContain}>
                     <div>
