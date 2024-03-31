@@ -9,9 +9,10 @@ import {
     useState,
 } from "react";
 import axios from "axios";
-
+import globalStyles from "@/styles/Global.module.sass";
 import LinearProgress from "@mui/material/LinearProgress";
 import Navbar from "@/components/Navbar";
+import { ArrowLeft } from "lucide-react";
 
 type validStatuses = "input" | "waiting" | "done";
 
@@ -59,7 +60,21 @@ export default function Home() {
 
     return (
         <main>
-            <div>Generate new Tidbit</div>
+            <div></div>
+            <div
+                // className={globalStyles.courseHeading}
+                style={{ justifyItems: "flex-start" }}
+            >
+                <div className={globalStyles.headingRow}>
+                    <button className={globalStyles.backButton}>
+                        <ArrowLeft size={32} />
+                    </button>
+                    <div className={globalStyles.p}>
+                        &nbsp;&nbsp;Generate new tidbit{" "}
+                    </div>
+                </div>
+            </div>
+
             {ui}
             {status === "waiting" ? (
                 <button
@@ -98,20 +113,31 @@ function InputUI({
         }
     }
     return (
-        <div className={styles.test}>
-            <img src="./placeholder.png" />
-            <div>Add lecture video or audio file</div>
-            <div>Add lecture video or audio file</div>
+        <div className={globalStyles.uploadPage}>
+            <img src="./file/filesUploadImg.png"></img>
+
             <div>
-                <input
+                <div
+                    className={globalStyles.h1}
+                    style={{ textAlign: "center" }}
+                >
+                    Add lecture video or audio file
+                </div>
+                <div className={globalStyles.p} style={{ textAlign: "center" }}>
+                    Upload your most recent lecture{" "}
+                </div>
+
+                {/* <input
                     type="file"
                     hidden
                     id="file-btn"
                     onChange={handleChange}
                     accept=".mp3,.mp4,.mov"
-                />
+                /> */}
                 <label htmlFor="file-btn" style={{ cursor: "pointer" }}>
-                    <div>{file ? file.name : "Upload File"}</div>
+                    <button className={globalStyles.primary}>
+                        Upload file
+                    </button>
                 </label>
             </div>
         </div>
