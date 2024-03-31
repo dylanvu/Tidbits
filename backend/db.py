@@ -47,9 +47,7 @@ async def download_reel(vid: int):
     return await client.storage.from_(bucket).download(path)
 
 
-async def upload_prompt_and_generate_reel(
-    file: BufferedReader | bytes | FileIO | str | Path,
-):
+async def upload_prompt_and_generate_reel(file: bytes):
     path = "prompt.mp4"
     # upload to storage as fallback
     await client.storage.from_(bucket).upload(
