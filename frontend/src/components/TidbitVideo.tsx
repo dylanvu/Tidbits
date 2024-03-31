@@ -31,7 +31,7 @@ function TidbitVideo({ tidbit }: { tidbit: ITidbitVideo }) {
                 <div>
                     {/* username and course */}
                     <div>
-                        <span className={globalStyls.p}>{tidbit.username}</span>
+                        <span className={globalStyles.p}>{tidbit.username}</span>
                         <span className="float-right">{tidbit.course}</span>
                     </div>
                     {/* tidbit description */}
