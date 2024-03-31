@@ -29,6 +29,13 @@ const sets: StudySet[] = [
         iconColor: "#00C3DD",
         iconBackgroundColor: "#CAF9FF",
     },
+    {
+        //* pink
+        title: "CPSC110",
+        instructor: "Dr.Park",
+        iconColor: "#F400CD",
+        iconBackgroundColor: "#FFE7FE",
+    },
 ];
 
 // TODO: fetch this from backend
@@ -44,9 +51,8 @@ export default function Browse() {
         window.scrollTo(0, 0);
     }, [currentCourse]);
     return (
-        <main className={globalStyles.body}>
-            <div className={globalStyles.test}>
-                {/* switch the UIs depending on the render state */}
+        <div>
+            <div>
                 {currentCourse === null ? (
                     <FoldersUI
                         sets={sets}
@@ -59,8 +65,8 @@ export default function Browse() {
                         setCurrentCourse={setCurrentCourse}
                     />
                 )}
-                <Navbar current="home" setCurrentCourse={setCurrentCourse} />
             </div>
-        </main>
+            <Navbar current="home" setCurrentCourse={setCurrentCourse} />
+        </div>
     );
 }

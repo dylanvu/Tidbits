@@ -19,7 +19,7 @@ $activeOutline: 3px solid $aqua
 $largeBorder: 24px
 $smallBorder: 16px
 $cardPadding: 18px
-$inputPadding: 8px 16px
+$inputPadding: 6px 16px
 $iconPadding: 6px 12px
 $friends: 4px
 $neighbors: 22px
@@ -27,19 +27,51 @@ $neighbors: 22px
 //! animations
 $mainTransition: border 200ms ease
 //! global
+
+
 .main
   background-color: $backgroundColor
+  height: 100vh
+  width: 100vw
+  position: absolute
+  top: 0
+  left: 0
 .body  
   margin: 0 
-  overflow-x: hidden 
+  overflow-x: scroll 
   font-family: Inter, sans-serif
   background-color: $backgroundColor
   padding: 24px
+  overflow-y: scroll
+  height: 90vh
+  position: relative
+  z-index: 10
 .neighbors
   gap: $neighbors
   display: flex
   flex-direction: column
   justify-items: start
+
+@mixin center()
+  display: grid
+  place-content: center  
+@mixin row()
+  display: flex
+  flex-direction: row
+  white-space: nowrap
+  align-content: center
+  justify-content: center
+  justify-items: center
+  align-items: center
+  gap: 8px
+@mixin column()
+  display: flex
+  flex-direction: column
+  gap: 4px
+  align-content: start
+@mixin fitWH
+  width: 100%
+  height: fit-content
 //! text
 .h1
   font-size: $h1text
@@ -68,28 +100,24 @@ $mainTransition: border 200ms ease
   color: #fff
   border-radius: $smallBorder
   background-color: $aqua
-
+.createButton
+  cursor: pointer 
+  border-radius: 1000px
+  background-color: $aqua
+  color: #fff
+  height: 50px
+  width: 50px
+  @include center
+.backButton
+  background-color: $iconBG
+  color: $iconColor
+  padding: 12px
+  height: 40px
+  width: 40px
+  @include center
+  border-radius: $smallBorder
+  font-size: 22px
 //! primary cards
-@mixin center()
-  display: grid
-  place-content: center  
-@mixin row()
-  display: flex
-  flex-direction: row
-  white-space: nowrap
-  align-content: center
-  justify-content: center
-  justify-items: center
-  align-items: center
-  gap: 8px
-@mixin column()
-  display: flex
-  flex-direction: column
-  gap: 4px
-  align-content: start
-@mixin fitWH
-  width: 100%
-  height: fit-content
 .row
   @include row
 .column
@@ -102,8 +130,10 @@ $mainTransition: border 200ms ease
   &.image
     display: grid
     grid-template-columns: repeat(2, 1fr)
+    transition: $mainTransition
   &:hover
     cursor: pointer
+    border: $activeOutline
 
 .iconTag
   @include row
@@ -128,6 +158,7 @@ $mainTransition: border 200ms ease
 .search
   border: $outline
   color: $iconColor
+  font-weight: 600
   transition: $mainTransition
   @include row
   border-radius: $smallBorder
@@ -138,4 +169,77 @@ $mainTransition: border 200ms ease
     border: $activeOutline
     color: $text-color
     cursor: pointer
+//! navBar
+.navBar
+  width: 100% 
+  height: fit-content 
+  padding: 16px 22px
+  position: fixed
+  background-color: #fff
+  display: grid
+  grid-template-columns: repeat(3, 1fr)
+  border-radius: 50px 50px 0px 0px
+  bottom:0
+  z-index: 10000
+.navBarItem
+  @include column
+  align-items: center
+  color: $iconColor
+  height: fit-content
+  &:hover
+    color: $aqua
+.unselected
+  border: $outline
+  border-radius: 1000px
+  color: $iconColor
+  padding: $inputPadding
+.selected
+  background-color: $aqua
+  border-radius: 1000px
+  color: #fff
+  padding: $inputPadding
+.courseHeading
+  background-color: #fff
+  @include center
+  padding: $cardPadding
+  left: 0
+  top: 0
+  justify-content: start
+  overflow-x: hidden
+.headingRow
+  @include row
+  display: flex
+  justify-items: flex-start
+  flex-direction: row
+  justify-content: flex-start
+  gap: 4px
+  width: 100%
+  padding-bottom: 12px
+.tagsContain
+  @include row
+  overflow-x: scroll
+  width: 100%
+  left: 0
+  justify-content: flex-start
+  margin-left: 12vw
+//* reels
+.reelText
+  font-weight: 600
+  font-size: 16px
+  color: #fff
+  margin: 0 
+  white-space: wrap
+.reelsHeading
+  width: 100%
+  @include row
+  gap: auto
+  justify-content: space-between
+.reelContain
+  width: 100vw
+  @include row
+  padding: 12px
+.reelTextContain
+  max-width: 80vw
+  @include column
+  gap: 8px
   

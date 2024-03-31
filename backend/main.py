@@ -56,7 +56,7 @@ async def reel_by_vid(vid: int):
 
 
 @app.post("/generate")
-async def geenrate_reel(prompt: UploadFile):
+async def generate_reel(prompt: UploadFile):
     try:
         file_bytes = await prompt.read()
         await upload_prompt_and_generate_reel(file_bytes)

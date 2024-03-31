@@ -14,7 +14,7 @@ function FoldersUI({
 }) {
     return (
         //* home page when no card is selected
-        <main>
+        <main className={globalStyles.body}>
             <div className={globalStyles.neighbors}>
                 {/* style={{gap:"22px"}} */}
                 {/* search */}
@@ -22,7 +22,7 @@ function FoldersUI({
                     <div className={globalStyles.p}>Find a topic</div>
                     <div className={globalStyles.search}>
                         <Search size={28} />
-                        <div className={globalStyles.p}>Find a topic</div>
+                        <div>Find a topic</div>
                     </div>
                 </div>
                 {/* daily tidbit */}
