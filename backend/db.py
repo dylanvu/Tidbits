@@ -27,13 +27,10 @@ async def get_courses(uid: str):
 
 
 async def get_reel_metadata(uid: str, course: str) -> list:
-    data = (
-        await client.table("user_reels")
-        .select("*")
-        .eq("uid", uid)
-        .eq("course", course)
-        .execute()
-    )
+    query = client.table("user_reels").select("*").eq("uid", uid)
+    if course:
+        query.eq("course", course)
+    data = await query.execute()
     return data.data
 
 

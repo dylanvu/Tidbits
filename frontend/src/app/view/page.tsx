@@ -17,7 +17,7 @@ const tidbits: tidbit[] = [
         videoUrl: "./example/salad_1.mp4",
         title: "Bubble Sort",
         duration: 53,
-        url: "./example/thumbnail_example.png",
+        imageUrl: "./example/thumbnail_example.png",
         vid: "1",
     },
     {
@@ -27,7 +27,7 @@ const tidbits: tidbit[] = [
         videoUrl: "./example/salad.mp4",
         title: "Bubble Sort",
         duration: 53,
-        url: "./example/thumbnail_example.png",
+        imageUrl: "./example/thumbnail_example.png",
         vid: "2",
     },
     {
@@ -37,7 +37,7 @@ const tidbits: tidbit[] = [
         videoUrl: "./example/trees.mp4",
         title: "Bubble Sort",
         duration: 53,
-        url: "./example/thumbnail_example.png",
+        imageUrl: "./example/thumbnail_example.png",
         vid: "3",
     },
 ];
