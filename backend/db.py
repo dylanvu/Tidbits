@@ -26,8 +26,14 @@ async def get_courses(uid: str):
     return data.data
 
 
-async def get_reel_metadata(uid: str) -> list:
-    data = await client.table("user_reels").select("*").eq("uid", uid).execute()
+async def get_reel_metadata(uid: str, course: str) -> list:
+    data = (
+        await client.table("user_reels")
+        .select("*")
+        .eq("uid", uid)
+        .eq("course", course)
+        .execute()
+    )
     return data.data
 
 
@@ -41,9 +47,7 @@ async def download_reel(vid: int):
     return await client.storage.from_(bucket).download(path)
 
 
-async def upload_prompt_and_generate_reel(
-    file: BufferedReader | bytes | FileIO | str | Path,
-):
+async def upload_prompt_and_generate_reel(file: bytes):
     path = "prompt.mp4"
     # upload to storage as fallback
     await client.storage.from_(bucket).upload(
