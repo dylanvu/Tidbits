@@ -1,0 +1,22 @@
+{
+    "script": "Imagine you're at a popular salad place and you see a huge shelf with 26 sections labeled A to Z. That's a real-life example of a data structure called a hash table! \ud83e\udd57\ud83d\udcca\n\nHere's how it works: when you order a salad, they put it on the shelf based on the first letter of your name. So if your name is Alice, your salad goes in the 'A' section. If it's Bob, it goes in the 'B' section. And so on!\n\nThis lets them find your salad super fast when you come to pick it up. Instead of searching through the whole shelf, they just go straight to your letter. Computer scientists call this 'constant time' or 'O(1)' \u23f1\ufe0f\n\nBut there's a catch! If tons of people with the same first letter order salads at the same time, that section can get overcrowded and they might have to start putting salads in the wrong place. Then it becomes a mess! \ud83d\ude05\n\nSo next time you see something organized from A-Z, you'll know there's some clever computer science going on behind the scenes! \ud83e\udd13",
+    "music_description": "Upbeat, quirky instrumental music with a 'mind-blown' sound effect when the hash table is first mentioned",
+    "pictures": [
+        {
+            "description": "A crowded Sweetgreen shelf with salads organized into 26 labeled sections",
+            "timestamp": 0
+        },
+        {
+            "description": "Close-up of a salad being placed in the 'A' section of the shelf",
+            "timestamp": 8
+        },
+        {
+            "description": "Timelapse of someone's hand quickly grabbing a salad from a letter section",
+            "timestamp": 15
+        },
+        {
+            "description": "The 'D' section of the shelf overflowing with salads, with salads falling onto the floor",
+            "timestamp": 22
+        }
+    ]
+}
