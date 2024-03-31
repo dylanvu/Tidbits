@@ -1,22 +1,30 @@
 {
-    "script": "Imagine you're at a popular salad place and you see a huge shelf with 26 sections labeled A to Z. That's a real-life example of a data structure called a hash table! \ud83e\udd57\ud83d\udcca\n\nHere's how it works: when you order a salad, they put it on the shelf based on the first letter of your name. So if your name is Alice, your salad goes in the 'A' section. If it's Bob, it goes in the 'B' section. And so on!\n\nThis lets them find your salad super fast when you come to pick it up. Instead of searching through the whole shelf, they just go straight to your letter. Computer scientists call this 'constant time' or 'O(1)' \u23f1\ufe0f\n\nBut there's a catch! If tons of people with the same first letter order salads at the same time, that section can get overcrowded and they might have to start putting salads in the wrong place. Then it becomes a mess! \ud83d\ude05\n\nSo next time you see something organized from A-Z, you'll know there's some clever computer science going on behind the scenes! \ud83e\udd13",
-    "music_description": "Upbeat, quirky instrumental music with a 'mind-blown' sound effect when the hash table is first mentioned",
+    "script": "Have you ever wondered how your contacts app works so fast? \ud83e\udd14 It uses a special trick called a trie! \ud83e\ude84 Imagine a tree \ud83c\udf33 but instead of leaves, it has arrays! \ud83d\udcca Each array represents a letter. To find your friend's name, you just follow the path of letters until you reach the end. \ud83d\ude0e Whether you have 3 friends or 3 million, it always takes the same number of steps! \u23f0 That's the magic of a trie - it's like having a super speedy dictionary \ud83d\udcd6\ud83d\udca8 right in your pocket! \ud83e\udd33 Pretty cool, huh? \ud83d\ude04 #CS50 #computerscience #datastructures",
+    "music_description": "Upbeat, curious electronic music with a steady clap beat",
     "pictures": [
         {
-            "description": "A crowded Sweetgreen shelf with salads organized into 26 labeled sections",
+            "description": "An animated question mark",
             "timestamp": 0
         },
         {
-            "description": "Close-up of a salad being placed in the 'A' section of the shelf",
-            "timestamp": 8
+            "description": "A colorful, simplified diagram of a trie data structure",
+            "timestamp": 3
         },
         {
-            "description": "Timelapse of someone's hand quickly grabbing a salad from a letter section",
+            "description": "An animated tree sprouting arrays as leaves",
+            "timestamp": 6
+        },
+        {
+            "description": "A stopwatch ticking",
+            "timestamp": 12
+        },
+        {
+            "description": "A book rapidly flipping pages, then zooming into a smartphone screen",
             "timestamp": 15
         },
         {
-            "description": "The 'D' section of the shelf overflowing with salads, with salads falling onto the floor",
-            "timestamp": 22
+            "description": "A smiling face with sunglasses",
+            "timestamp": 20
         }
     ]
 }
