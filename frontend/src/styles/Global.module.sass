@@ -12,22 +12,30 @@ $backgroundColor: #E6E6F5
 $text-color: #363636
 $iconColor: #5E5E6B
 $iconBG: #EBEBF6
+$outline: 3px solid #E2E2EF
+$activeOutline: 3px solid $aqua
 
 //! formatting
 $largeBorder: 24px
-$smallBorder: 12px
+$smallBorder: 16px
 $cardPadding: 18px
+$inputPadding: 8px 16px
 $iconPadding: 6px 12px
-$friends: 8px
-$neighbors: 12px
-//! global
+$friends: 4px
+$neighbors: 22px
 
+//! animations
+$mainTransition: border 200ms ease
+//! global
+.main
+  background-color: $backgroundColor
 .body  
   margin: 0 
   overflow-x: hidden 
   font-family: Inter, sans-serif
   background-color: $backgroundColor
-  padding: 28px
+  padding: 24px
+.neighbors
   gap: $neighbors
   display: flex
   flex-direction: column
@@ -46,7 +54,7 @@ $neighbors: 12px
 .p
   font-size: $p
   font-weight: 600
-  color: $iconColor
+  color: $text-color
   margin: 0
 
 //! buttons
@@ -62,6 +70,9 @@ $neighbors: 12px
   background-color: $aqua
 
 //! primary cards
+@mixin center()
+  display: grid
+  place-content: center  
 @mixin row()
   display: flex
   flex-direction: row
@@ -70,7 +81,7 @@ $neighbors: 12px
   justify-content: center
   justify-items: center
   align-items: center
-  gap: 4px
+  gap: 8px
 @mixin column()
   display: flex
   flex-direction: column
@@ -112,4 +123,19 @@ $neighbors: 12px
   padding: $iconPadding
   border-radius: $smallBorder
   width: fit-content
-  height: 100%
+  height: 48px
+  @include center
+.search
+  border: $outline
+  color: $iconColor
+  transition: $mainTransition
+  @include row
+  border-radius: $smallBorder
+  padding: $inputPadding
+  background-color: #fff
+  justify-content: flex-start
+  &:hover, &:active
+    border: $activeOutline
+    color: $text-color
+    cursor: pointer
+  

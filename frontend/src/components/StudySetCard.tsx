@@ -23,6 +23,7 @@ function StudySetCard({
     return (
         <div
             className={globalStyles.card}
+            style={{ marginTop: "1vh" }}
             // TODO: Link this to the right page
             onClick={() => setCurrentCourse(set.title)}
         >
