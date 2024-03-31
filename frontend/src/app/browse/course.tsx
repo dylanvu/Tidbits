@@ -11,6 +11,7 @@ interface preview {
     duration: number;
     url: string;
     vid: string;
+    tag: string | null;
 }
 
 // TODO: retrieve this from the backend
@@ -47,6 +48,7 @@ function CourseUI({
                                 duration: tidbitData.duration_seconds,
                                 vid: tidbitData.id,
                                 url: url,
+                                tag: thumbnailData.tag ?? null,
                             };
                             return [...prevPreviews, newPreview];
                         });
@@ -54,6 +56,9 @@ function CourseUI({
             }
         });
     }, []);
+    useEffect(() => {
+        console.log(selectedTags);
+    }, [selectedTags]);
     return (
         <div>
             <div>
@@ -77,7 +82,7 @@ function CourseUI({
                                 setSelectedTags(deepClonedSet);
                             } else {
                                 // add it
-                                // deep clonse
+                                // deep clone
                                 const deepClonedSet: Set<string> = new Set(
                                     JSON.parse(
                                         JSON.stringify([...selectedTags, tag]),
@@ -92,17 +97,25 @@ function CourseUI({
                     </button>
                 ))}
             </div>
-            {previews.map((preview, index) => (
-                // TODO: filter through the tidbits for any selected tag
-                <Link
-                    href={`/view?vid=${preview.vid}`}
-                    key={`preview-${preview.vid}-${index}`}
-                >
-                    <img src={preview.url} />
-                    <div>{preview.title}</div>
-                    <div>{preview.duration} seconds</div>
-                </Link>
-            ))}
+            {previews.map((preview, index) => {
+                // filter through the tidbits for any selected tag
+                if (
+                    selectedTags.size > 0 &&
+                    (preview.tag === null || !selectedTags.has(preview.tag))
+                ) {
+                    return null;
+                }
+                return (
+                    <Link
+                        href={`/view?vid=${preview.vid}`}
+                        key={`preview-${preview.vid}-${index}`}
+                    >
+                        <img src={preview.url} />
+                        <div>{preview.title}</div>
+                        <div>{preview.duration} seconds</div>
+                    </Link>
+                );
+            })}
         </div>
     );
 }
