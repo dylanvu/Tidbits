@@ -6,7 +6,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import globalStyles from "@/styles/Global.module.sass";
 import { ArrowLeft } from "lucide-react";
 import ScrollableCarousel from "@/components/ScrollableCarousel";
-axios.defaults.baseURL = "https://tidbits.onrender.com";
+// axios.defaults.baseURL = "https://tidbits.onrender.com";
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 export interface tidbit {
     title: string;
     duration: number;
@@ -99,8 +100,7 @@ function CourseUI({
                     className={globalStyles.courseHeading}
                     style={{ justifyItems: "flex-start" }}
                 >
-                     <div style={{marginBottom: "4vh"}}>
-                    
+                    <div style={{ marginBottom: "4vh" }}>
                         <div className={globalStyles.headingRow}>
                             <button
                                 className={globalStyles.backButton}
