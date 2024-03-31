@@ -28,7 +28,7 @@ const tidbits: tidbit[] = [
         title: "Bubble Sort",
         duration: 53,
         url: "./example/thumbnail_example.png",
-        vid: "1",
+        vid: "2",
     },
     {
         description: "Heap sorts items using a heap data structure",
@@ -38,7 +38,7 @@ const tidbits: tidbit[] = [
         title: "Bubble Sort",
         duration: 53,
         url: "./example/thumbnail_example.png",
-        vid: "1",
+        vid: "3",
     },
 ];
 export default function Reels() {
