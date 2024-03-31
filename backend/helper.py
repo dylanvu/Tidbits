@@ -207,7 +207,7 @@ async def post_talk(script):
             "provider": {
                 "type": "elevenlabs",
                 "voice_id": voice_ids[randInt],
-                "voice_config": {"stability": 0.3, "similarity_boost": 1},
+                "voice_config": {"stability": 0.3, "similarity_boost": 0.75},
             },
             "model_id": "eleven_multilingual_v2",
             "input": script,
