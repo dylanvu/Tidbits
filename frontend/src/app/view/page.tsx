@@ -56,7 +56,6 @@ export default function Reels() {
                                 tag: thumbnailData.tag ?? null,
                                 description: tidbitData.description,
                                 course: tidbitData.course,
-                                // TODO: Fix this
                                 videoUrl: reelUrl,
                             };
                             return [...prevPreviews, newPreview];
