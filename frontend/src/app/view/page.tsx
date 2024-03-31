@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { tidbit } from "../browse/course";
 
-axios.defaults.baseURL = "https://tidbits.onrender.com";
+// axios.defaults.baseURL = "https://tidbits.onrender.com";
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export default function Reels() {
     const searchParams = useSearchParams();
