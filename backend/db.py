@@ -78,8 +78,8 @@ async def upload_reel(file: Union[BufferedReader, bytes, FileIO, str, Path], **k
     await client.table("main").upsert(
         {
             "uid": "test",
-            "course": "Kinematics",
-            "instructor": "Walter Lewin",
+            "course": "Physics 101",
+            "instructor": "Jane Doe",
             "vid": vid,
         }
     ).execute()
