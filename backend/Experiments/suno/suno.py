@@ -154,8 +154,8 @@ class SongsGen:
                 self.song_info_dict["song_url"] = (
                     f"https://audiopipe.suno.ai/?item_id={id1}"
                 )
-                print("Token expired, will sleep 5 seconds and try to download")
-                time.sleep(5)
+                print("Token expired, will sleep 30 seconds and try to download")
+                time.sleep(30)
                 # Done here
                 return True
             else:
