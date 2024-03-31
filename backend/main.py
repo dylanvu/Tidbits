@@ -71,5 +71,21 @@ async def delete_by_vid(vid: int):
     return data
 
 
+@app.post("/test_upload")
+async def test_upload(file: UploadFile):
+    try:
+        file_bytes = await file.read()
+        await upload_reel(
+            file_bytes,
+            duration=30,
+            tag="physics",
+            name="Demo Reel",
+            description="This is a trial reel on a non-CS topic.",
+        )
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500)
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=10000)
