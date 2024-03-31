@@ -57,7 +57,8 @@ async def reel_by_vid(vid: int):
 
 @app.post("/prompt")
 async def upload_prompt(file: UploadFile):
-    res = await upload_video_prompt(file.file)
+    file_bytes = await file.read()
+    res = await upload_video_prompt(file_bytes)
     return res
 
 
