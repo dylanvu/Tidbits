@@ -4,6 +4,8 @@ import { motion, useMotionValue, useSpring, type PanInfo } from "framer-motion";
 import styles from "@/styles/components/ScrollableCarousel.module.sass";
 import TidbitVideo from "./TidbitVideo";
 import { tidbit } from "@/app/browse/course";
+import globalStyles from "@/styles/Global.module.sass";
+import { ArrowLeft } from "lucide-react";
 
 // configuration variables on the animation
 const DRAG_THRESHOLD = 100;
@@ -109,6 +111,16 @@ function ScrollableCarousel({ tidbits }: { tidbits: tidbit[] }) {
 
     return (
         <div>
+            {/* heading for reels */}
+            <div className={globalStyles.headingRow}>
+                <button
+                    className={globalStyles.backButton}
+                    // onClick={() => setCurrentCourse(null)}
+                >
+                    <ArrowLeft size={26} />
+                </button>
+                <div className={globalStyles.p}>{tidbits[activeSlide].tag}</div>
+            </div>
             <motion.ul
                 ref={containerRef}
                 className="flex h-screen cursor-grab flex-col items-start"

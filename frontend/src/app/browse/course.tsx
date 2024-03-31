@@ -85,7 +85,7 @@ function CourseUI({
                     className={globalStyles.courseHeading}
                     style={{ justifyItems: "flex-start" }}
                 >
-                    <div className={globalStyles.headingRow}>
+                    {/* <div className={globalStyles.headingRow}>
                         <button
                             className={globalStyles.backButton}
                             onClick={() => setCurrentCourse(null)}
@@ -95,7 +95,7 @@ function CourseUI({
                         <div className={globalStyles.h1}>
                             &nbsp;&nbsp;{course}{" "}
                         </div>
-                    </div>
+                    </div> */}
                     <div>
                         {/* filters */}
                         <div className={globalStyles.tagsContain}>
