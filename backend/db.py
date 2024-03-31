@@ -44,6 +44,10 @@ async def download_reel(vid: int):
 async def upload_video_prompt(file: BufferedReader | bytes | FileIO | str | Path):
     path = "prompt.mp4"
     res = await client.storage.from_(bucket).upload(path, file)
+    # TODO: heavylifting begins here
+    # use file directly
+    # reel = ?
+    # await upload_reel(reel, fields...)
     return res
 
 
