@@ -93,72 +93,73 @@ function CourseUI({
     if (vid === null) {
         return (
             //* course inner header
-            <div>
+            <div className={globalStyles.neighbors}>
                 {/* header */}
                 <div
                     className={globalStyles.courseHeading}
                     style={{ justifyItems: "flex-start" }}
                 >
-                    {/* <div className={globalStyles.headingRow}>
-                        <button
-                            className={globalStyles.backButton}
-                            onClick={() => setCurrentCourse(null)}
-                        >
-                            <ArrowLeft size={32} />
-                        </button>
-                        <div className={globalStyles.h1}>
-                            &nbsp;&nbsp;{course}{" "}
+                     <div style={{marginBottom: "4vh"}}>
+                    
+                        <div className={globalStyles.headingRow}>
+                            <button
+                                className={globalStyles.backButton}
+                                onClick={() => setCurrentCourse(null)}
+                            >
+                                <ArrowLeft size={32} />
+                            </button>
+                            <div className={globalStyles.h1}>
+                                &nbsp;&nbsp;{course}{" "}
+                            </div>
                         </div>
-                    </div> */}
-                    <div>
-                        {/* filters */}
-                        <div className={globalStyles.tagsContain}>
-                            {/* show all the tags associated with the course */}
-                            {tags.map((tag, index) => (
-                                <button
-                                    key={`${tag}-${index}`}
-                                    onClick={() => {
-                                        if (selectedTags.has(tag)) {
-                                            // remove it
-                                            const deepClonedSet: Set<string> =
-                                                new Set(
-                                                    JSON.parse(
-                                                        JSON.stringify([
-                                                            ...selectedTags,
-                                                        ]),
-                                                    ),
-                                                );
-                                            deepClonedSet.delete(tag);
-                                            setSelectedTags(deepClonedSet);
-                                        } else {
-                                            // add it
-                                            // deep clonse
-                                            const deepClonedSet: Set<string> =
-                                                new Set(
-                                                    JSON.parse(
-                                                        JSON.stringify([
-                                                            ...selectedTags,
-                                                            tag,
-                                                        ]),
-                                                    ),
-                                                );
-                                            setSelectedTags(deepClonedSet);
-                                        }
-                                    }}
-                                    className={`${
-                                        selectedTags.has(tag)
-                                            ? globalStyles.selected
-                                            : globalStyles.unselected
-                                    } ${globalStyles.p}`}
-                                >
-                                    {tag}
-                                </button>
-                            ))}
+                        <div>
+                            {/* filters */}
+                            <div className={globalStyles.tagsContain}>
+                                {/* show all the tags associated with the course */}
+                                {tags.map((tag, index) => (
+                                    <button
+                                        key={`${tag}-${index}`}
+                                        onClick={() => {
+                                            if (selectedTags.has(tag)) {
+                                                // remove it
+                                                const deepClonedSet: Set<string> =
+                                                    new Set(
+                                                        JSON.parse(
+                                                            JSON.stringify([
+                                                                ...selectedTags,
+                                                            ]),
+                                                        ),
+                                                    );
+                                                deepClonedSet.delete(tag);
+                                                setSelectedTags(deepClonedSet);
+                                            } else {
+                                                // add it
+                                                // deep clonse
+                                                const deepClonedSet: Set<string> =
+                                                    new Set(
+                                                        JSON.parse(
+                                                            JSON.stringify([
+                                                                ...selectedTags,
+                                                                tag,
+                                                            ]),
+                                                        ),
+                                                    );
+                                                setSelectedTags(deepClonedSet);
+                                            }
+                                        }}
+                                        className={`${
+                                            selectedTags.has(tag)
+                                                ? globalStyles.selected
+                                                : globalStyles.unselected
+                                        } ${globalStyles.p}`}
+                                    >
+                                        {tag}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                    <div
-                        className={`${globalStyles.neighbors} ${globalStyles.body}`}
-                    >
+                    <div className={`${globalStyles.videosContain}`}>
                         {previews.map((preview, index) => {
                             // filter through the tidbits for any selected tag
                             if (
@@ -169,13 +170,25 @@ function CourseUI({
                                 return null;
                             }
                             return (
+                                //* video tags
                                 <button
                                     onClick={() => setVid(preview.vid)}
                                     key={`preview-${preview.vid}-${index}`}
+                                    className={globalStyles.videoElement}
                                 >
                                     <img src={preview.imageUrl} />
-                                    <div>{preview.title}</div>
-                                    <div>{preview.duration} seconds</div>
+                                    <div
+                                        className={globalStyles.h2}
+                                        style={{ textAlign: "left" }}
+                                    >
+                                        {preview.title}
+                                    </div>
+                                    <div
+                                        className={globalStyles.iconTag}
+                                        style={{ textAlign: "left" }}
+                                    >
+                                        {preview.duration} seconds
+                                    </div>
                                 </button>
                             );
                         })}

@@ -114,9 +114,9 @@ function InputUI({
     }
     return (
         <div className={globalStyles.uploadPage}>
-            <img src="./file/filesUploadImg.png"></img>
+            <img src="./filesUploadImg.png"></img>
 
-            <div>
+          
                 <div
                     className={globalStyles.h1}
                     style={{ textAlign: "center" }}
@@ -139,7 +139,7 @@ function InputUI({
                         Upload file
                     </button>
                 </label>
-            </div>
+
         </div>
     );
 }
