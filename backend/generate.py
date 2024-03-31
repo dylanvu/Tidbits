@@ -10,9 +10,6 @@ import os
 
 # Third-party library imports for asynchronous operations
 import asyncio
-import nest_asyncio
-
-nest_asyncio.apply()
 
 import time
 from helper import *

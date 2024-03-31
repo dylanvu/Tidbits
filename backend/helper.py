@@ -19,9 +19,7 @@ from xml.sax.saxutils import escape
 # Third-party library imports for asynchronous operations
 import aiohttp
 import asyncio
-import nest_asyncio
 
-nest_asyncio.apply()
 import contextlib
 
 
@@ -612,6 +610,7 @@ def edit_video(headshot, subtitles, pictures, images, music):
 
 def vid_duration(filename):
     import cv2
+
     video = cv2.VideoCapture(filename)
     duration = video.get(cv2.CAP_PROP_POS_MSEC)
     return duration
