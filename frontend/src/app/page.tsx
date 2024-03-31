@@ -1,113 +1,171 @@
-import Image from "next/image";
+"use client";
+
+import styles from "@/styles/pages/Home.module.sass";
+import {
+    ChangeEvent,
+    Dispatch,
+    SetStateAction,
+    useEffect,
+    useState,
+} from "react";
+import axios from "axios";
+
+import LinearProgress from "@mui/material/LinearProgress";
+import Navbar from "@/components/Navbar";
+
+type validStatuses = "input" | "waiting" | "done";
+
+axios.defaults.baseURL = "https://tidbits.onrender.com";
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    const [file, setFile] = useState<File | null>(null);
+    const [status, setStatus] = useState<validStatuses>("input");
+    const [preview, setPreview] = useState<string>("");
+
+    useEffect(() => {
+        if (file) {
+            if (status === "input") {
+                // create the preview
+                const objectUrl = URL.createObjectURL(file);
+                setPreview(objectUrl);
+
+                // set the status to render the loading bar
+                setStatus("waiting");
+                axios
+                    .postForm("prompt", {
+                        file: file,
+                    })
+                    .then((res) => {
+                        console.log(res);
+                        setStatus("done");
+                    });
+                // free memory when ever video component is unmounted
+                return () => URL.revokeObjectURL(objectUrl);
+            }
+        }
+    }, [file]);
+
+    let ui: JSX.Element;
+    if (status !== "input" && file) {
+        ui = <UploadedUI file={file} status={status} preview={preview} />;
+    } else {
+        ui = <InputUI file={file} setFile={setFile} />;
+    }
+
+    return (
+        <main>
+            <div>Generate new Tidbit</div>
+            {ui}
+            {status === "waiting" ? (
+                <button
+                    onClick={() => {
+                        setStatus("done");
+                    }}
+                    style={{
+                        backgroundColor: "gray",
+                        padding: "1%",
+                        borderRadius: "10px",
+                    }}
+                >
+                    DEBUG BUTTON DELETE ME LATER: See &quot;finished&quot; state
+                </button>
+            ) : null}
+            <Navbar current="home" />
+        </main>
+    );
+}
+
+/**
+ * UI for accepting input
+ * @returns
+ */
+function InputUI({
+    file,
+    setFile,
+}: {
+    file: File | null;
+    setFile: Dispatch<SetStateAction<File | null>>;
+}) {
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        const files = event.target.files;
+        if (files) {
+            setFile(files[0]);
+        }
+    }
+    return (
+        <div className={styles.test}>
+            <img src="./placeholder.png" />
+            <div>Add lecture video or audio file</div>
+            <div>Add lecture video or audio file</div>
+            <div>
+                <input
+                    type="file"
+                    hidden
+                    id="file-btn"
+                    onChange={handleChange}
+                    accept=".mp3,.mp4,.mov"
+                />
+                <label htmlFor="file-btn" style={{ cursor: "pointer" }}>
+                    <div>{file ? file.name : "Upload File"}</div>
+                </label>
+            </div>
         </div>
-      </div>
+    );
+}
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+function UploadedUI({
+    status,
+    file,
+    preview,
+}: {
+    status: validStatuses;
+    file: File;
+    preview: string;
+}) {
+    const progressStyle = {
+        height: 30,
+        borderRadius: "10px",
+    };
+    return (
+        <div>
+            {status === "waiting" ? (
+                "Generating Video"
+            ) : (
+                <div>
+                    <div>
+                        {/* // TODO: code this in */}
+                        CS50 Lecture Week 2
+                    </div>
+                    {file.type === ".mp3" ? (
+                        <audio controls>
+                            <source src={preview} />
+                        </audio>
+                    ) : (
+                        <video src={preview} controls />
+                    )}
+                </div>
+            )}
+            <div className="progress-container">
+                {file.name}
+                {status === "waiting" ? (
+                    <>
+                        <span className="float-end">
+                            {Math.round((file.size / 1000000) * 100) / 100} mb
+                        </span>
+                        <LinearProgress sx={progressStyle} />
+                    </>
+                ) : (
+                    <>
+                        <span className="float-end">Completed</span>
+                        <LinearProgress
+                            variant="determinate"
+                            sx={progressStyle}
+                            value={100}
+                        />
+                        <button>View Video</button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 }
