@@ -84,7 +84,9 @@ async def upload_reel(file: Union[BufferedReader, bytes, FileIO, str, Path], **k
         }
     ).execute()
     path = f"{vid}.mp4"
-    res = await client.storage.from_(bucket).upload(path, file)
+    res = await client.storage.from_(bucket).upload(
+        path, file, file_options={"content-type": "video/mp4"}
+    )
     return res
 
 
