@@ -70,7 +70,7 @@ export default function Home() {
                 </div>
             </div>
             {ui}
-            {status === "waiting" ? (
+            {/* {status === "waiting" ? (
                 <button
                     onClick={() => {
                         setStatus("done");
@@ -83,7 +83,7 @@ export default function Home() {
                 >
                     DEBUG BUTTON DELETE ME LATER: See &quot;finished&quot; state
                 </button>
-            ) : null}
+            ) : null} */}
             <Navbar current="home" />
         </main>
     );
@@ -154,7 +154,15 @@ function UploadedUI({
     return (
         <div>
             {status === "waiting" ? (
-                "Generating Video"
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <img src="./bearImage.png" />
+                    <div
+                        className={globalStyles.h1}
+                        style={{ textAlign: "center" }}
+                    >
+                        Generating Video
+                    </div>
+                </div>
             ) : (
                 <div>
                     <div>
