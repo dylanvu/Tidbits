@@ -15,6 +15,7 @@ interface preview {
 }
 
 // TODO: retrieve this from the backend
+// test for jasmine
 const tags = ["algorithms", "data structures", "system design"];
 
 function CourseUI({
