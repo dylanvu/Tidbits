@@ -8,10 +8,14 @@ import {
     useEffect,
     useState,
 } from "react";
+import axios from "axios";
+
 import LinearProgress from "@mui/material/LinearProgress";
 import Navbar from "@/components/Navbar";
 
 type validStatuses = "input" | "waiting" | "done";
+
+axios.defaults.baseURL = "https://tidbits.onrender.com";
 
 export default function Home() {
     const [file, setFile] = useState<File | null>(null);
@@ -27,9 +31,16 @@ export default function Home() {
 
                 // set the status to render the loading bar
                 setStatus("waiting");
-                // TODO: call the API to send the video data
-                //.then, setStatus to be "done"
-
+                axios
+                    .post("prompt", file, {
+                        headers: {
+                            "Content-Type": file.type,
+                        },
+                    })
+                    .then((res) => {
+                        console.log(res);
+                        setStatus("done");
+                    });
                 // free memory when ever video component is unmounted
                 return () => URL.revokeObjectURL(objectUrl);
             }
@@ -58,7 +69,7 @@ export default function Home() {
                         borderRadius: "10px",
                     }}
                 >
-                    DEBUG BUTTON DELETE ME LATER: See "finished" state
+                    DEBUG BUTTON DELETE ME LATER: See &quot;finished&quot; state
                 </button>
             ) : null}
             <Navbar current="home" />

@@ -2,25 +2,19 @@
 import { MouseEvent as ReactMouseEvent, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, type PanInfo } from "framer-motion";
 import styles from "@/styles/components/ScrollableCarousel.module.sass";
+import TidbitVideo, { ITidbitVideo } from "./TidbitVideo";
 
 // configuration variables on the animation
 const DRAG_THRESHOLD = 10;
 const FALLBACK_HEIGHT = 500;
 const CURSOR_SIZE = 80;
 
-// TODO: Turn this into a prop
-const videos = [
-    { title: "Video 1" },
-    { title: "Video 2" },
-    { title: "Video 3" },
-];
-
-function ScrollableCarousel() {
+function ScrollableCarousel({ tidbits }: { tidbits: ITidbitVideo[] }) {
     const containerRef = useRef<HTMLUListElement>(null);
     const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
     const [activeSlide, setActiveSlide] = useState(0);
     const canScrollPrev = activeSlide > 0;
-    const canScrollNext = activeSlide < videos.length - 1;
+    const canScrollNext = activeSlide < tidbits.length - 1;
 
     const offsetY = useMotionValue(0);
     const animatedY = useSpring(offsetY, {
@@ -120,7 +114,7 @@ function ScrollableCarousel() {
                 }}
                 drag="y"
                 dragConstraints={{
-                    top: -(FALLBACK_HEIGHT * (videos.length - 1)),
+                    top: -(FALLBACK_HEIGHT * (tidbits.length - 1)),
                     bottom: FALLBACK_HEIGHT,
                 }}
                 onMouseMove={({ currentTarget, clientX, clientY }) => {
@@ -136,12 +130,16 @@ function ScrollableCarousel() {
                 }}
                 onDragEnd={handleDragSnap}
             >
-                {videos.map((video, index) => {
+                {tidbits.map((tidbit, index) => {
+                    // TODO: This may cause a bug on the animation when dragging
+                    if (index !== activeSlide) {
+                        return;
+                    }
                     const active = index === activeSlide;
                     return (
                         <motion.li
                             layout
-                            key={video.title}
+                            key={index}
                             ref={(el) => (itemsRef.current[index] = el)}
                             transition={{
                                 ease: "easeInOut",
@@ -151,18 +149,16 @@ function ScrollableCarousel() {
                                 flexBasis: active ? "40%" : "30%",
                             }}
                         >
-                            <div>
-                                <div
-                                    draggable={false}
-                                    onClick={disableDragClick}
-                                    className={`${
-                                        active
-                                            ? "mt-4 flex justify-center"
-                                            : "hidden"
-                                    } ${styles.video}`}
-                                >
-                                    {video.title}
-                                </div>
+                            <div
+                                draggable={false}
+                                onClick={disableDragClick}
+                                className={`${
+                                    active
+                                        ? "mt-4 flex justify-center"
+                                        : "hidden"
+                                } ${styles.video}`}
+                            >
+                                <TidbitVideo tidbit={tidbit} />
                             </div>
                         </motion.li>
                     );
