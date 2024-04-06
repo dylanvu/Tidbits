@@ -2,6 +2,7 @@ from typing import Union
 from io import FileIO, BufferedReader
 from pathlib import Path
 from supabase_py_async import create_client, AsyncClient
+import asyncer
 
 from config import settings
 from generate import generate
@@ -53,7 +54,7 @@ async def upload_prompt_and_generate_reel(file: bytes):
     duration = await generate(temp)
     reel_path = "final_video.mp4"
     await upload_reel(
-        reel_path,
+        file=reel_path,
         duration=duration,
         tag="physics",
         name="Demo Reel",
@@ -75,24 +76,32 @@ async def upload_reel(file: Union[BufferedReader, bytes, FileIO, str, Path], **k
         .execute()
     )
     vid = res.data[0]["id"]
-    await client.table("main").upsert(
-        {
-            "uid": "test",
-            "course": "Physics 101",
-            "instructor": "Jane Doe",
-            "vid": vid,
-        }
-    ).execute()
     path = f"{vid}.mp4"
-    res = await client.storage.from_(bucket).upload(
-        path, file, file_options={"content-type": "video/mp4"}
-    )
-    return res
+    async with asyncer.create_task_group() as task_group:
+        task_group.soonify(
+            client.table("main")
+            .upsert(
+                {
+                    "uid": "test",
+                    "course": "Physics 101",
+                    "instructor": "Jane Doe",
+                    "vid": vid,
+                }
+            )
+            .execute
+        )()
+        res = task_group.soonify(client.storage.from_(bucket).upload)(
+            path=path, file=file, file_options={"content-type": "video/mp4"}
+        )
+    return res.value
 
 
 async def delete_reel(vid: int):
     thumbnail = f"{vid}.jpeg"
     reel = f"{vid}.mp4"
-    await client.storage.from_(bucket).remove([thumbnail, reel])
-    data = await client.table("reels").delete().eq("id", vid).execute()
-    return data.data
+    async with asyncer.create_task_group() as task_group:
+        task_group.soonify(client.storage.from_(bucket).remove)(paths=[thumbnail, reel])
+        data = task_group.soonify(
+            client.table("reels").delete().eq("id", vid).execute
+        )()
+    return data.value.data
